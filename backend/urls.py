@@ -9,7 +9,7 @@ app_name="backend"
 urlpatterns = [
     # Static pages
     path('test/',views.hello),
-    path('login/', views.login),
+    path('sign_in/', views.login),
 
     # API endpoints
     path('api/sign_up', api_views.sign_up),
