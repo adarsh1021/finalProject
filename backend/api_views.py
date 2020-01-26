@@ -38,16 +38,16 @@ def sign_up(request):
     '''
 
     if(request.method == "POST"):
-        print(request.GET)
         data = request.POST
-        print(data)
-        if(User.objects.get(email=data['email'])):
+        if(User.objects.filter(email=data['email'])):
             return JsonResponse({"message": "User already exists", "redirect_flag": False }, status=409)
-        User.objects.create_user(
+
+        user = User.objects.create_user(
             username=data['user_name'],
             password=data['password'],
             email=data['email'],
         )
+        request.session['user'] = user.id
         return JsonResponse({"message": "Success", "redirect_flag": True, "redirect": "/index" }, status=200)
     
     else:
@@ -67,10 +67,10 @@ def sign_in(request):
     '''
 
     if(request.method == "POST"):
-        data = requst.POST
+        data = request.POST
         user = authenticate(username=data['username'], password=data['password'])
         if(user):
-            print(user)
+            request.session['user'] = user.id
             return JsonResponse({"message": "Success", "redirect_flag": True, "redirect": "/index"}, status=200)
 
         else:
@@ -78,3 +78,4 @@ def sign_in(request):
 
     else:
         return JsonResponse({"message": "Method not allowed", "redirect_flag": False }, status=405)
+
