@@ -85,5 +85,10 @@ target/
 __pycache__/
 local_settings.py
 
+#environments
 .env
+
+#kurian's env -_-
+finalengg/
+
 db.sqlite3
