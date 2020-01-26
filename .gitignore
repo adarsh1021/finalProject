@@ -85,10 +85,19 @@ target/
 __pycache__/
 local_settings.py
 
-#environments
+# Environments
 .env
 
 #kurian's env -_-
 finalengg/
 
+# DB
 db.sqlite3
+
+# vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
