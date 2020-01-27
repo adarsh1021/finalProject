@@ -9,3 +9,7 @@ def hello(request):
 
 def login(request):
     return render(request, "backend/login.html")
+
+
+def index(request):
+    return render(request, 'backend/index.html')
