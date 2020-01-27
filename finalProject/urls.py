@@ -18,7 +18,7 @@ from django.conf.urls import include
 from django.urls import path
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',include('backend.urls'))
-
+    path("admin/", admin.site.urls),
+    path("", include("backend.urls")),
+    path("stubapi/", include("stubapi.urls")),
 ]
