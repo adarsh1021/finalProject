@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 
 
-'''
+"""
 Always follow the below response format
 {
     status: <status_code>,
@@ -21,61 +21,85 @@ Example for a successful api call
     redirect_flag: True,
     redirect: "/index",
 }
-'''
+"""
+
+
 @csrf_exempt
 def sign_up(request):
-    '''
+    """
     This endpoint is used for creating new users
     method: POST
     POST format
     {
-        username*: <user_name>,
+        username*: <username>,
         password*: <password>,
         email*: <email>,
-        first_name: <first_name>,
-        last_name: <last_name>,
     }
-    '''
+    """
 
-    if(request.method == "POST"):
+    if request.method == "POST":
         data = request.POST
-        if(User.objects.filter(email=data['email'])):
-            return JsonResponse({"message": "User already exists", "redirect_flag": False }, status=409)
+        if User.objects.filter(email=data["email"]):
+            return JsonResponse(
+                {"message": "User already exists", "redirect_flag": False},
+                status=409,
+            )
 
         user = User.objects.create_user(
-            username=data['user_name'],
-            password=data['password'],
-            email=data['email'],
+            username=data.get("username"),
+            password=data.get("password"),
+            email=data.get("email"),
         )
-        request.session['user'] = user.id
-        return JsonResponse({"message": "Success", "redirect_flag": True, "redirect": "/index" }, status=200)
-    
+        request.session["user"] = user.id
+        return JsonResponse(
+            {"message": "Success", "redirect_flag": True, "redirect": "/index"},
+            status=200,
+        )
+
     else:
-        return JsonResponse({"message": "Method not allowed", "redirect_flag": False }, status=405)
+        return JsonResponse(
+            {"message": "Method not allowed", "redirect_flag": False},
+            status=405,
+        )
 
 
 @csrf_exempt
 def sign_in(request):
-    '''
+    """
     This endpoint is used for authenticating with the user
     method: POST
     POST format
     {
-        username: <user_name>,
+        username: <username>,
         password: <password>,
     }
-    '''
+    """
 
-    if(request.method == "POST"):
+    if request.method == "POST":
         data = request.POST
-        user = authenticate(username=data['username'], password=data['password'])
-        if(user):
-            request.session['user'] = user.id
-            return JsonResponse({"message": "Success", "redirect_flag": True, "redirect": "/index"}, status=200)
+        user = User.objects.get(email=data.get("email"))
+        username = user.username
+        user = authenticate(username=username, password=data.get("password"))
+        if user:
+            request.session["user"] = user.id
+            return JsonResponse(
+                {
+                    "message": "Success",
+                    "redirect_flag": True,
+                    "redirect": "/index",
+                },
+                status=200,
+            )
 
         else:
-            return JsonResponse({"message": "Authentication failed", "redirect_flag": False}, status=401)
+            return JsonResponse(
+                {"message": "Authentication failed", "redirect_flag": False},
+                status=401,
+            )
 
     else:
-        return JsonResponse({"message": "Method not allowed", "redirect_flag": False }, status=405)
+        return JsonResponse(
+            {"message": "Method not allowed", "redirect_flag": False},
+            status=405,
+        )
 
