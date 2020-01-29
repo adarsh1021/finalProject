@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
+from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -50,7 +51,7 @@ def sign_up(request):
             password=data.get("password"),
             email=data.get("email"),
         )
-        request.session["user"] = user.id
+        login(request, user)
         return JsonResponse(
             {"message": "Success", "redirect_flag": True, "redirect": "/index"},
             status=200,
@@ -81,7 +82,7 @@ def sign_in(request):
         username = user.username
         user = authenticate(username=username, password=data.get("password"))
         if user:
-            request.session["user"] = user.id
+            login(request, user)
             return JsonResponse(
                 {
                     "message": "Success",
