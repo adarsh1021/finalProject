@@ -40,7 +40,7 @@
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
         aria-controls="collapseTwo">
         <i class="fas fa-fw fa-cog"></i>
-        <span>Scheduler</span>
+        <span>Data Collection</span>
       </a>
       <!-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
@@ -439,11 +439,13 @@
       <br>
       <!-- Add Campaign-->
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6 offset-md-2">
           <form class="user container">
             <div class="form-group">
-              <input type="text" class="form-control form-control-user" id="InputUserName"
-                placeholder="Social Media Website">
+                <label>Select Social Media</label>
+                <select class="form-control">
+                  <option>Facebook</option>
+                </select>
             </div>
             <div class="form-group">
               <input type="password" class="form-control form-control-user" id="InputPassword"
@@ -451,6 +453,20 @@
             </div>
             <div class="form-group">
               <input type="password" class="form-control form-control-user" id="InputPassword" placeholder="Fields">
+            </div>
+            <div class="form-group">
+              <label>Schedule</label>
+              <div class="row">
+                <div class="checkbox col-md-2">
+                  <label><input type="radio" name="schedule"> Daily</label>
+                </div>
+                <div class="checkbox col-md-2">
+                  <label><input type="radio" name="schedule"> Weekly</label>
+                </div>
+                <div class="checkbox col-md-2">
+                  <label><input type="radio" name="schedule"> Monthly</label>
+                </div>
+              </div>
             </div>
             <a href="#" class="btn btn-primary btn-user btn-block">
               Add Social Media
