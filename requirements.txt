@@ -17,5 +17,3 @@ six==1.14.0
 sqlparse==0.3.0
 toml==0.10.0
 tqdm==4.41.1
-typed-ast==1.4.1
-unrpa==2.3.0
