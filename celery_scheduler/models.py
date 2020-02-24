@@ -9,5 +9,7 @@ class CeleryScheduler(models.Model):
     endpoint - https:/// ....
     target - table name
     """
+    schedule = models.CharField(max_length=30)
+    endpoint = models.CharField(max_length=200)
+    target_table = models.CharField(max_length=50)
 
-    pass
