@@ -4,7 +4,7 @@ from celery import shared_task
 from django.conf import settings
 # We can have either registered task 
 
-celery = Celery('tasks',broker = 'redis://localhost:6279') #!
+celery = Celery('tasks',broker = 'redis://localhost:6379') #!
 
 import os
 

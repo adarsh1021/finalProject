@@ -14,7 +14,14 @@ import os
 from pymongo.mongo_client import MongoClient
 
 MongoClient.HOST = "mongodb+srv://dbUser:m9jqXtF66FOqKjrS@fp-cluster0-egwoa.gcp.mongodb.net/test?retryWrites=true"
-BROKER_URL='redis://localhost:6279'
+#celery configs
+BROKER_URL='redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Makassar'
+CELERY_BEAT_SCHEDULE = {}
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
