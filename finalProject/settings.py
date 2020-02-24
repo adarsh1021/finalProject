@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from pymongo.mongo_client import MongoClient
+from datetime import timedelta
 
 MongoClient.HOST = "mongodb+srv://dbUser:m9jqXtF66FOqKjrS@fp-cluster0-egwoa.gcp.mongodb.net/test?retryWrites=true"
 
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "backend.apps.BackendConfig",
+    "celery_scheduler",
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,13 @@ STATICFILES_DIRS = (
     os.path.join(os.path.dirname(__file__), "static/"),
     "static/",
 )
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_IMPORTS = ("celery_scheduler.tasks",)
+CELERY_BEAT_SCHEDULE = {
+    "stocks update": {  # update Company Details
+        "task": "celery_scheduler.tasks.fetch_data",
+        "schedule": timedelta(seconds=10),
+    },
+}
