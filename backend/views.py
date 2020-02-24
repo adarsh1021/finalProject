@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from backend.models import Campaign
 
 
 def hello(request):
@@ -16,7 +17,16 @@ def sign_in(request):
 @login_required(login_url="/sign_in")
 def index(request):
     user = request.user
-    return render(request, "backend/index.html", {"user": user,})
+    return render(request, "backend/dataCollection.html", {"user": user})
+
+
+@login_required(login_url="/sign_in")
+def mapping(request):
+    user = request.user
+    campaigns = Campaign.objects.filter(user=user)
+    return render(
+        request, "backend/mapping.html", {"user": user, "campaigns": campaigns}
+    )
 
 
 def sign_out(request):

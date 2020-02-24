@@ -3,6 +3,9 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
+from .models import Campaign
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 """
@@ -104,3 +107,36 @@ def sign_in(request):
             status=405,
         )
 
+
+@csrf_exempt
+@login_required(login_url="/sign_in")
+def create_campaign(request):
+    """
+    To create a new campaign
+    method: POST
+    POST format:
+    {
+        fields: [],
+        crawlInterval: <daily, weekly, monthly>
+    }
+    """
+    if request.method == "POST":
+        campaign = Campaign(
+            user=request.user,
+            name=request.POST.get("campaignName"),
+            sourceType=request.POST.get("sourceType"),
+            fields={
+                field: "char" for field in request.POST.get("fields").split(",")
+            },
+            crawlInterval=getattr(Campaign, request.POST.get("schedule")),
+        )
+        if campaign.sourceType == "sm":
+            campaign.source = request.POST.get("socialMedia")
+        elif campaign.sourceType == "api":
+            campaign.source = request.POST.get("api")
+        elif campaign.sourceType == "csv":
+            campaign.sourceType = "csvFile"
+
+        campaign.save()
+
+    return JsonResponse({"success": True})
