@@ -62,7 +62,7 @@ class Campaign(models.Model):
     # Source can be different depending upon sourceType
     # fileName - csv
     # apiID - api
-    # customTableId - ct
+    # socialMedia - sm
     source = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     crawlInterval = models.IntegerField(choices=CRAWL_INTERVAL_OPTIONS)
