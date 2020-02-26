@@ -1,0 +1,28 @@
+steps to be followed to start a facebook marketting account:
+
+
+long lived access token 
+
+app id
+2078055618956417
+
+app secret 
+13abbe78b681be785a2c8ae10564a62a
+
+accesstoken temp
+EAAdhZBwb9zIEBAM3m874PzkDzVtMmOhC9CpEFstd7ZB4PSo1upE5BC004PDm6nmnClFWoxvsGm26AEJeI5zbIhVQes8jPLAXZCGzsZBKsUOQWgdNfG4SZBGGQ4CCcjESFjauZBNGYpGnZA5ZBZCKLrBZCTLNZAclkEpEhZAeZBZBZCPMZA5YyV3SZCTZCXyKB36ZB1SBdyRXk34uhwi8eqoNgZDZD
+
+
+curl -i -X GET "https://graph.facebook.com/v2.10/oauth/access_token?grant_type=fb_exchange_token&client_id=2078055618956417&client_secret=13abbe78b681be785a2c8ae10564a62a&fb_exchange_token=EAAdhZBwb9zIEBAM3m874PzkDzVtMmOhC9CpEFstd7ZB4PSo1upE5BC004PDm6nmnClFWoxvsGm26AEJeI5zbIhVQes8jPLAXZCGzsZBKsUOQWgdNfG4SZBGGQ4CCcjESFjauZBNGYpGnZA5ZBZCKLrBZCTLNZAclkEpEhZAeZBZBZCPMZA5YyV3SZCTZCXyKB36ZB1SBdyRXk34uhwi8eqoNgZDZD"
+
+long lived access token 
+
+{"access_token":"EAAdhZBwb9zIEBABjhVQh5f7Whon7ZAbFOdCCkx6gIEV3luO6gTwqfhBx2vgJgf8hWwOm4AIZCR4ypKg9sIgAWGsTir29A9Se0ZAbctX9ZCVZC1ezLqnk4ZAfmeZAHZCKj7CjrxDpTsFUX9gZBkZA3J7wleHcNEYYMgTEI1Xb1nz6XBOXzYXD4ZBxPa9ZA",
+"token_type":"bearer",
+"expires_in":5183999}
+
+long lived page access
+
+curl -i -X GET "https://graph.facebook.com/v2.10/2265565456798556/accounts?access_token=EAAdhZBwb9zIEBABjhVQh5f7Whon7ZAbFOdCCkx6gIEV3luO6gTwqfhBx2vgJgf8hWwOm4AIZCR4ypKg9sIgAWGsTir29A9Se0ZAbctX9ZCVZC1ezLqnk4ZAfmeZAHZCKj7CjrxDpTsFUX9gZBkZA3J7wleHcNEYYMgTEI1Xb1nz6XBOXzYXD4ZBxPa9ZA"
+
+{"data":[{"access_token":"EAAdhZBwb9zIEBACZBlZBm9A03klpiMGpI5op080BxJKSD6qPfZBjteSBl4czxiZCCXWJm40iUDeFqP66hv9VkRzfILCEdZAZAFnbPNZB39FKONSy5AHZCxoZCTHZAkYZBNSkTZCPDGaA4QlnaUjVyjkZCwIEhoi7DWJVWh6bKTZCk6tYjuRWqjQGFXTZAhcp","category":"Musician","category_list":[{"id":"1335670856447673","name":"Musician"},{"id":"1290986887644410","name":"Show"},{"id":"180164648685982","name":"Musician\/Band"}],"name":"Kurian Music Records","id":"102780074622387","tasks":["ANALYZE","ADVERTISE","MODERATE","CREATE_CONTENT","MANAGE"]}],"paging":{"cursors":{"before":"MTAyNzgwMDc0NjIyMzg3","after":"MTAyNzgwMDc0NjIyMzg3"}}}
