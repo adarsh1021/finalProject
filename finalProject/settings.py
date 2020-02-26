@@ -79,7 +79,9 @@ WSGI_APPLICATION = "finalProject.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {"default": {"ENGINE": "djongo", "NAME": "myDB"}}
+DATABASES = {
+    "default": {"ENGINE": "djongo", "ENFORCE_SCHEMA": False, "NAME": "myDB"}
+}
 
 # MongoDB Credentials
 # User: dbUser

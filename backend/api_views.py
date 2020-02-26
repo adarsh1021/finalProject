@@ -7,6 +7,7 @@ from .models import Campaign, Data
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import json
+import pandas as pd
 
 
 """
@@ -151,9 +152,32 @@ def create_custom_table(request):
     campaign1, campaign2 = data
     fields1, fields2 = data[campaign1], data[campaign2]
 
-    df1 = Data.objects.filter(campaign=campaign1)
-    import pdb
+    df1_fields_map = {}
+    df2_fields_map = {}
 
-    pdb.set_trace()
+    for fIdx in range(len(fields1)):
+        if fields1[fIdx] != fields2[fIdx]:
+            df1_fields_map[fields1[fIdx]] = f"{fields1[fIdx]}__{fields2[fIdx]}"
+            df2_fields_map[fields2[fIdx]] = f"{fields1[fIdx]}__{fields2[fIdx]}"
+        else:
+            df1_fields_map[fields1[fIdx]] = fields1[fIdx]
+            df2_fields_map[fields2[fIdx]] = fields2[fIdx]
+
+    # finalDf = pd.DataFrame(columns=df)
+
+    df1 = Data.objects.filter(campaign__id=campaign1).order_by("-created_at")[0]
+    df1 = pd.DataFrame(df1.data)
+    df2 = Data.objects.filter(campaign__id=campaign2).order_by("-created_at")[0]
+    df2 = pd.DataFrame(df2.data)
+
+    finalDf = pd.concat(
+        [
+            df1.rename(columns=df1_fields_map),
+            df2.rename(columns=df2_fields_map),
+        ],
+        ignore_index=True,
+    )
+
+    print(finalDf)
 
     return JsonResponse({"success": True})

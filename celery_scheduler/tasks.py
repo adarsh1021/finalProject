@@ -20,9 +20,10 @@ def fetch_data_daily():
             response = urllib.request.urlopen(campaign.source)
             data = json.load(response)
             print(data)
-            Data.create(campaign=campaign, data=data)
-        except:
+            Data(campaign=campaign, data=data).save()
+        except Exception as e:
             print("error")
+            print(e)
 
 
 def fetch_data_weekly():
@@ -37,9 +38,10 @@ def fetch_data_weekly():
             response = urllib.request.urlopen(campaign.source)
             data = json.load(response)
             print(data)
-            Data.create(campaign=campaign, data=data)
-        except:
+            Data(campaign=campaign, data=data).save()
+        except Exception as e:
             print("error")
+            print(e)
 
 
 def fetch_data_montly():
@@ -54,7 +56,8 @@ def fetch_data_montly():
             response = urllib.request.urlopen(campaign.source)
             data = json.load(response)
             print(data)
-            Data.create(campaign=campaign, data=data)
-        except:
+            Data(campaign=campaign, data=data).save()
+        except Exception as e:
             print("error")
+            print(e)
 
