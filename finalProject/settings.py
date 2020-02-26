@@ -131,8 +131,16 @@ CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_IMPORTS = ("celery_scheduler.tasks",)
 CELERY_BEAT_SCHEDULE = {
-    "stocks update": {  # update Company Details
-        "task": "celery_scheduler.tasks.fetch_data",
+    "Fetch data daily": {
+        "task": "celery_scheduler.tasks.fetch_data_daily",
         "schedule": timedelta(seconds=10),
-    }
+    },
+    "Fetch data weekly": {
+        "task": "celery_scheduler.tasks.fetch_data_weekly",
+        "schedule": timedelta(weeks=2),
+    },
+    "Fetch data monthly": {
+        "task": "celery_scheduler.tasks.fetch_data_montly",
+        "schedule": timedelta(weeks=2),
+    },
 }
