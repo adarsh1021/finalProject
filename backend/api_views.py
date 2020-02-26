@@ -3,9 +3,10 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
-from .models import Campaign
+from .models import Campaign, Data
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+import json
 
 
 """
@@ -138,5 +139,21 @@ def create_campaign(request):
             campaign.sourceType = "csvFile"
 
         campaign.save()
+
+    return JsonResponse({"success": True})
+
+
+@csrf_exempt
+@login_required(login_url="/sign_in")
+def create_custom_table(request):
+    data = json.loads(request.POST.get("data"))
+
+    campaign1, campaign2 = data
+    fields1, fields2 = data[campaign1], data[campaign2]
+
+    df1 = Data.objects.filter(campaign=campaign1)
+    import pdb
+
+    pdb.set_trace()
 
     return JsonResponse({"success": True})

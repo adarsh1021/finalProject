@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "celery_scheduler",
-    "backend"
+    "backend",
 ]
 
 MIDDLEWARE = [
@@ -134,5 +134,5 @@ CELERY_BEAT_SCHEDULE = {
     "stocks update": {  # update Company Details
         "task": "celery_scheduler.tasks.fetch_data",
         "schedule": timedelta(seconds=10),
-    },
+    }
 }

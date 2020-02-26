@@ -8,5 +8,6 @@ print(facebookDf.head())
 # Create your views here.
 def facebook(request):
     fields = request.GET.get("fields", []).split(",")
-    response = facebookDf[fields].to_json()
+    start, end = map(int, request.GET.get("rows", "0:10").split(":"))
+    response = facebookDf[fields].iloc[start:end, :].to_json()
     return HttpResponse(response, content_type="application/json")

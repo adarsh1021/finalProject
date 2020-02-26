@@ -17,6 +17,17 @@ def sign_in(request):
 @login_required(login_url="/sign_in")
 def index(request):
     user = request.user
+    campaigns = Campaign.objects.filter(user=user)
+    return render(
+        request,
+        "backend/dashboard.html",
+        {"user": user, "campaigns": campaigns},
+    )
+
+
+@login_required(login_url="/sign_in")
+def dataCollection(request):
+    user = request.user
     return render(request, "backend/dataCollection.html", {"user": user})
 
 
