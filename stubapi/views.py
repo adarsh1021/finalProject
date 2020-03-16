@@ -8,7 +8,7 @@ print(smdf1.head())
 print(smdf2.head())
 
 # http://127.0.0.1:8000/stubapi/sm1/?fields=ad_id,reporting_start,impressions,age,spent&rows=0:10
-# http://127.0.0.1:8000/stubapi/sm2/?fields=ad_id,start_date,impressions,age,cost&rows=0:10
+# http://127.0.0.1:8000/stubapi/sm2/?fields=ad_id,start_date,impressions,age,cost&rows=0:20
 
 # Create your views here.
 def sm1(request):
