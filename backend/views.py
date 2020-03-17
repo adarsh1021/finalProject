@@ -32,11 +32,13 @@ def dataCollection(request):
 
 
 @login_required(login_url="/sign_in")
-def mapping(request):
+def createCustomTable(request):
     user = request.user
     campaigns = Campaign.objects.filter(user=user)
     return render(
-        request, "backend/mapping.html", {"user": user, "campaigns": campaigns}
+        request,
+        "backend/createCustomTable.html",
+        {"user": user, "campaigns": campaigns},
     )
 
 

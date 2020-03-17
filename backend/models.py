@@ -3,29 +3,19 @@ from django.db import models
 from jsonfield import JSONField
 
 
-# class CustomTable(models.Model):
-#     """
-#     id
-#     source
-#     tableName
-#     tableStructure
-#     """
+# {"campaign1": [, "campaign2": []}
 
-#     SOURCE_TYPE_OPTIONS = (
-#         ("csv", "CSV"),
-#         ("api", "API"),
-#         ("ct", "CustomTable"),
-#     )
-#     sourceType = models.CharField(
-#         max_length=5, choices=SOURCE_TYPE_OPTIONS, default="api"
-#     )
-#     # Source can be different depending upon sourceType
-#     # fileName - csv
-#     # apiID - api
-#     # customTableId - ct
-#     source = models.CharField(max_length=256)
-#     name = models.CharField(max_length=100)
-#     fields = JSONField()
+
+class CustomTable(models.Model):
+    """
+    id
+    tableName
+    tableStructure
+    """
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=256)
+    structure = JSONField()
 
 
 class Campaign(models.Model):

@@ -14,7 +14,9 @@ urlpatterns = [
     path("sign_up/", views.sign_up, name="sign_up"),
     path("index/", views.index, name="index"),
     path("dataCollection/", views.dataCollection, name="dataCollection"),
-    path("mapping/", views.mapping, name="mapping"),
+    path(
+        "createCustomTable/", views.createCustomTable, name="createCustomTable"
+    ),
     # API endpoints
     path("api/sign_up", api_views.sign_up),
     path("api/sign_in", api_views.sign_in),

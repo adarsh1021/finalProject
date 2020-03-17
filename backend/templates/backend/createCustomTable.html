@@ -7,6 +7,8 @@
         {% include 'backend/topbar.html' %}
         <div class="container-fluid">
             <h2>Cross Platform Mapping</h2>
+            <br>
+            <input type="text" id="customTableName" placeholder="Custom Table Name"><br><br>
             <div class="row">
                 <div
                     class="col col-md-4 text-center"
@@ -32,11 +34,14 @@
                             {% for campaign in campaigns %}
                             <div id="{{ campaign.id }}">
                                 {% for field in campaign.fields %}
-                                <div
+                                <div class="row">
+                                    <div
                                     class="col mt-2"
                                     style="height: calc(1.5em + 0.75rem + 2px); padding: 0.375rem 0.75rem;"
-                                >
-                                    {{ field }}
+                                    >
+                                    <input class="form-check-input" type="checkbox" checked>
+                                        {{ field }}
+                                    </div>
                                 </div>
                                 {% endfor %}
                             </div>
