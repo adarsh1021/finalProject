@@ -17,6 +17,8 @@ urlpatterns = [
     path(
         "createCustomTable/", views.createCustomTable, name="createCustomTable"
     ),
+    path("analytics/", views.analytics, name="analytics"),
+    path("analytics/<int:customTableId>", views.analytics, name="analytics"),
     # API endpoints
     path("api/sign_up", api_views.sign_up),
     path("api/sign_in", api_views.sign_in),

@@ -132,6 +132,20 @@
             </div>
             <hr />
             <h1>Custom Tables</h1>
+            <div class="row">
+                {% for table in customTables %}
+                <div class="col col-2">
+                    <div class="card bg-primary text-white shadow">
+                        <div class="card-body">
+                            {{ table.name }}
+                            <!-- <div class="text-white-50 small">
+                                {{ campaign.created_at }}
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
         <!-- /.container-fluid -->
     </div>
