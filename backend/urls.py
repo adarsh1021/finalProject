@@ -14,6 +14,7 @@ urlpatterns = [
     path("sign_up/", views.sign_up, name="sign_up"),
     path("index/", views.index, name="index"),
     path("mapping/", views.mapping, name="mapping"),
+    path("table_display/", views.table_disp, name="table_display"),
     # API endpoints
     path("api/sign_up", api_views.sign_up),
     path("api/sign_in", api_views.sign_in),

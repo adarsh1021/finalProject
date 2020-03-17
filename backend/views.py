@@ -39,3 +39,7 @@ def sign_up(request):
 
     return render(request, "backend/sign_up.html")
 
+def table_disp(request):
+    
+    return render(request, "backend/table_disp")
+
