@@ -1,0 +1,36 @@
+{% extends 'backend/base.html' %} {% block content %}
+<!-- sidebar -->
+{% include 'backend/sidebar.html' %}
+<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+        {% include 'backend/topbar.html' %}
+        <div class="container-fluid">
+            <h2>Analytics</h2>
+            <div class="row">
+                {% if customTables %}
+                <div class="container-fluid">
+                    <h3>Select a Table</h3>
+                    <br />
+                    {% for table in customTables %}
+                    <div class="col col-2">
+                        <div class="card bg-primary text-white shadow">
+                            <div class="card-body">
+                                {{ table.name }}
+                                <!-- <div class="text-white-50 small">
+                                        {{ campaign.created_at }}
+                                    </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <!-- 
+                    Create table here
+                 -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

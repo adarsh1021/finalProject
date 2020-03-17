@@ -3,9 +3,11 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
-from .models import Campaign
+from .models import Campaign, Data, CustomTable
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+import json
+import pandas as pd
 
 
 """
@@ -140,3 +142,28 @@ def create_campaign(request):
         campaign.save()
 
     return JsonResponse({"success": True})
+
+
+@csrf_exempt
+@login_required(login_url="/sign_in")
+def create_custom_table(request):
+    data = json.loads(request.POST.get("data"))
+    name = data.pop("name")
+    user = request.user
+
+    CustomTable.objects.create(user=user, name=name, structure=data)
+
+    return JsonResponse({"success": True})
+
+
+def analytics(request, aggregate_fun):
+
+    pass
+
+    # if(cache.get('table')):
+    #     table = cache.get('table')
+    # else:
+    #     table =
+
+    # df["fieldnmae"].sum()
+
