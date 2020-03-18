@@ -1,0 +1,104 @@
+{% extends 'backend/base.html' %} {% block content %}
+<!-- sidebar -->
+{% include 'backend/sidebar.html' %}
+<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+        {% include 'backend/topbar.html' %}
+        <div class="container-fluid">
+            <h2>Cross Platform Mapping</h2>
+            <br>
+            <input type="text" id="customTableName" placeholder="Custom Table Name"><br><br>
+            <div class="row">
+                <div
+                    class="col col-md-4 text-center"
+                    style="background-color: #fa7b62; color: black;"
+                >
+                    <h3 class="mt-2">Campaign 1</h3>
+                    <form>
+                        <div class="form-group">
+                            <label>Select Campaign</label>
+                            <select
+                                id="campaign1"
+                                class="form-control"
+                                name="campaign1"
+                            >
+                                {% for campaign in campaigns %}
+                                <option value="{{ campaign.id }}"
+                                    >{{ campaign.name }}</option
+                                >
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="campaign1Fields" class="form-group text-right">
+                            {% for campaign in campaigns %}
+                            <div id="{{ campaign.id }}">
+                                {% for field in campaign.fields %}
+                                <div class="row">
+                                    <div
+                                    class="col mt-2"
+                                    style="height: calc(1.5em + 0.75rem + 2px); padding: 0.375rem 0.75rem;"
+                                    >
+                                    <input class="form-check-input" type="checkbox" checked>
+                                        {{ field }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                <div
+                    class="col col-md-4 text-center"
+                    style="background-color: #ffff9f; color: black;"
+                >
+                    <h3 class="mt-2">Campaign 2</h3>
+                    <form>
+                        <div class="form-group">
+                            <label>Select Campaign</label>
+                            <select
+                                id="campaign2"
+                                class="form-control"
+                                name="campaign2"
+                            >
+                                {% for campaign in campaigns %}
+                                <option value="{{ campaign.id }}"
+                                    >{{ campaign.name }}</option
+                                >
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="campaign2Fields" class="form-group text-right">
+                            {% for campaign in campaigns %}
+                            <div id="{{ campaign.id }}">
+                                {% for field in campaign.fields %}
+                                <select
+                                    name="{{ campaign.id }}"
+                                    id="{{ campaign.id }}"
+                                    class="form-control mt-2"
+                                >
+                                    {% for field in campaign.fields %}
+                                    <option value="{{ field }}"
+                                        >{{ field }}</option
+                                    >
+                                    {% endfor %}
+                                </select>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                <div class="col col-md-4 text-center">
+                    <h3 class="mt-2">Field Name</h3>
+                </div>
+            </div>
+
+            <button id="create-mapping" class="btn btn-primary mt-5">
+                Create Mapping
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

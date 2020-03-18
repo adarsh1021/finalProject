@@ -105,3 +105,8 @@ db.sqlite3
 
 # Celery
 celerybeat-schedule
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir
+
+.pyStartUp.py

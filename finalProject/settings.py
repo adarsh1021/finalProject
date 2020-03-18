@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "celery_scheduler",
-    "backend"
+    "backend",
 ]
 
 MIDDLEWARE = [
@@ -79,7 +79,9 @@ WSGI_APPLICATION = "finalProject.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {"default": {"ENGINE": "djongo", "NAME": "myDB"}}
+DATABASES = {
+    "default": {"ENGINE": "djongo", "ENFORCE_SCHEMA": False, "NAME": "myDB"}
+}
 
 # MongoDB Credentials
 # User: dbUser
@@ -131,8 +133,16 @@ CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_IMPORTS = ("celery_scheduler.tasks",)
 CELERY_BEAT_SCHEDULE = {
-    "stocks update": {  # update Company Details
-        "task": "celery_scheduler.tasks.fetch_data",
+    "Fetch data daily": {
+        "task": "celery_scheduler.tasks.fetch_data_daily",
         "schedule": timedelta(seconds=10),
+    },
+    "Fetch data weekly": {
+        "task": "celery_scheduler.tasks.fetch_data_weekly",
+        "schedule": timedelta(weeks=2),
+    },
+    "Fetch data monthly": {
+        "task": "celery_scheduler.tasks.fetch_data_montly",
+        "schedule": timedelta(weeks=2),
     },
 }

@@ -133,6 +133,50 @@
                 $('#campaign2Fields > div').hide();
                 $(`#campaign2Fields #${$('#campaign2').val()}`).show();
             });
+
+            $('#create-mapping').click(function() {
+                var data = {};
+                data[$('#campaign1').val()] = [];
+                data[$('#campaign2').val()] = [];
+                for (
+                    var i = 0;
+                    i <
+                    $(`#campaign1Fields #${$('#campaign1').val()} div div`).length;
+                    i++
+                ) {
+                    let checked = $(
+                            `#campaign1Fields #${$(
+                                '#campaign1'
+                            ).val()} div div:eq(${i}) input`
+                        )[0].checked;
+                    if(checked) {
+                        let key = $.trim(
+                            $(
+                                `#campaign1Fields #${$(
+                                    '#campaign1'
+                                ).val()} div div:eq(${i})`
+                            ).text()
+                        );
+                        let val = $(
+                            `#campaign2Fields #${$(
+                                '#campaign2'
+                            ).val()} select:eq(${i})`
+                        ).val();
+                        data[$('#campaign1').val()].push(key);
+                        data[$('#campaign2').val()].push(val);
+                        console.log(key);
+                    }
+                }
+                data['name'] = $('#customTableName').val();
+                console.log(data);
+                $.post(
+                    '/api/create_custom_table',
+                    { data: JSON.stringify(data) },
+                    function(response) {
+                        console.log(response);
+                    }
+                );
+            });
         });
     </script>
 </html>
