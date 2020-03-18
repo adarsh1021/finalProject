@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 import json
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 
@@ -202,11 +201,12 @@ def analytics(request):
                 }
             )
         elif fn in ("pivot"):
-            resultTable = tableDf.pivot(columns=column)
+            resultTable = tableDf.pivot_table(columns=column, aggfunc=np.sum)
             resultTable = resultTable.reset_index()
-            resultTable.columns = list(
-                c[0] + "_" + c[1] for c in resultTable.columns
-            )
+
+            # resultTable.columns = list(
+            #     c[0] + "_" + c[1] for c in resultTable.columns
+            # )
             return JsonResponse(
                 {
                     "table": {

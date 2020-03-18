@@ -61,10 +61,13 @@
                         >
                             Apply
                         </button>
+                        <div class="col">
+                            <div
+                                id="functionResult"
+                                style="color: black; font-weight: bold; font-size: 1.2rem;"
+                            ></div>
+                        </div>
                     </form>
-                </div>
-                <div class="col">
-                    <div id="functionResult" class="mt-2"></div>
                 </div>
             </div>
             <h2>Forecasting</h2>
@@ -98,7 +101,11 @@
                     Forecast
                 </button>
                 <div class="col">
-                    <div id="forecastingResult" class="mt-2"></div>
+                    <div
+                        id="forecastingResult"
+                        class="mt-2"
+                        style="color: black; font-weight: bold; font-size: 1.2rem;"
+                    ></div>
                 </div>
             </form>
             <div class="row">
@@ -108,7 +115,7 @@
                     value="{{ customTableId }}"
                 />
                 <div
-                    style="display: block; position: absolute; height: 75%; width: 85%; overflow: scroll;"
+                    style="display: block; position: absolute; height: 65%; width: 85%; overflow: scroll;"
                 >
                     <table
                         class="table table-bordered dataTable"
@@ -141,7 +148,7 @@
                 $('#customTableId').val(),
                 $('.forecasting-select-column:eq(0)').val(),
                 $('.forecasting-select-column:eq(1)').val(),
-                $('.forecast input').val(),
+                $('.forecast input').val()
             );
         });
     });
@@ -212,16 +219,18 @@
             customTableId: customTableId,
             column1: column1,
             column2: column2,
-            column1_x: column1_x,
-        }
-        $.post('/api/forecast/', {data: JSON.stringify(data)}, function (
+            column1_x: column1_x
+        };
+        $.post('/api/forecast/', { data: JSON.stringify(data) }, function(
             response
         ) {
             console.log(response);
-            if(response !== undefined) {
-                $('#forecastingResult').text(`${column2}: ${response.predictedVal}`);
+            if (response !== undefined) {
+                $('#forecastingResult').text(
+                    `${column2}: ${response.predictedVal}`
+                );
             }
-        })
+        });
     }
 </script>
 {% endblock %}
