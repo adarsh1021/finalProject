@@ -13,6 +13,7 @@ urlpatterns = [
     path("sign_out/", views.sign_out, name="sign_out"),
     path("sign_up/", views.sign_up, name="sign_up"),
     path("index/", views.index, name="index"),
+    path("table_display/", views.table_disp, name="table_display"),
     path("dataCollection/", views.dataCollection, name="dataCollection"),
     path(
         "createCustomTable/", views.createCustomTable, name="createCustomTable"
