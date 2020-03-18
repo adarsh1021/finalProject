@@ -8,6 +8,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import json
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.linear_model import LinearRegression
 
 
 """
@@ -230,3 +234,20 @@ def analytics(request):
 
     # df["fieldnmae"].sum()
 
+
+@csrf_exempt
+@login_required(login_url="/sign_in")
+def forecast(request):
+    data = json.loads(request.POST.get("data"))
+
+    customTable = CustomTable.objects.get(id=data.get("customTableId"))
+
+    customTableDf = customTable.get_df()
+
+    lr = LinearRegression()
+    x = np.reshape(customTableDf[data.get("column1")].tolist(), (-1, 1))
+    y = np.reshape(customTableDf[data.get("column2")].tolist(), (-1, 1))
+    lr.fit(x, y)
+    predictedVal = lr.predict(np.reshape([int(data.get("column1_x"))], (-1, 1)))
+
+    return JsonResponse({"predictedVal": predictedVal[0][0]})

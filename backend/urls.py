@@ -26,4 +26,5 @@ urlpatterns = [
     path("api/create_campaign", api_views.create_campaign),
     path("api/create_custom_table", api_views.create_custom_table),
     path("api/analytics", api_views.analytics),
+    path("api/forecast/", api_views.forecast),
 ]

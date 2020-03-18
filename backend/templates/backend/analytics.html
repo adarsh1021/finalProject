@@ -13,16 +13,18 @@
                     <h3>Select a Table</h3>
                     <br />
                     {% for table in customTables %}
-                    <div class="col col-2">
-                        <div class="card bg-primary text-white shadow">
-                            <div class="card-body">
-                                {{ table.name }}
-                                <!-- <div class="text-white-50 small">
-                                        {{ campaign.created_at }}
-                                    </div> -->
+                    <a href="{% url 'backend:analytics' table.id %}">
+                        <div class="col col-2">
+                            <div class="card bg-primary text-white shadow">
+                                <div class="card-body">
+                                    {{ table.name }}
+                                    <!-- <div class="text-white-50 small">
+                                            {{ campaign.created_at }}
+                                        </div> -->
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 {% endfor %}
             </div>
@@ -65,6 +67,40 @@
                     <div id="functionResult" class="mt-2"></div>
                 </div>
             </div>
+            <h2>Forecasting</h2>
+            <form class="form-inline forecast">
+                <label class="my-1 mr-2">column1</label>
+                <select
+                    class="custom-select my-1 mr-sm-2 forecasting-select-column"
+                    id="selectFunction"
+                >
+                </select>
+
+                <label class="my-1 mr-2">column2</label>
+                <select
+                    id="selectColumn"
+                    class="custom-select my-1 mr-sm-2 forecasting-select-column"
+                >
+                </select>
+
+                <input
+                    type="text"
+                    class="form-control form-control-user my-1 mr-sm-2"
+                    name="column1-value"
+                    placeholder="Enter value of column1"
+                />
+
+                <button
+                    id="forecastFunction"
+                    type="button"
+                    class="btn btn-primary my-1"
+                >
+                    Forecast
+                </button>
+                <div class="col">
+                    <div id="forecastingResult" class="mt-2"></div>
+                </div>
+            </form>
             <div class="row">
                 <input
                     type="hidden"
@@ -98,6 +134,14 @@
                 $('#customTableId').val(),
                 $('#selectFunction').val(),
                 $('#selectColumn').val()
+            );
+        });
+        $('#forecastFunction').click(function() {
+            forecastFunction(
+                $('#customTableId').val(),
+                $('.forecasting-select-column:eq(0)').val(),
+                $('.forecasting-select-column:eq(1)').val(),
+                $('.forecast input').val(),
             );
         });
     });
@@ -144,6 +188,12 @@
             $('#selectColumn').append(
                 `<option value="${column}">${column}</option>`
             );
+            $('.forecasting-select-column:eq(0)').append(
+                `<option value="${column}">${column}</option>`
+            );
+            $('.forecasting-select-column:eq(1)').append(
+                `<option value="${column}">${column}</option>`
+            );
         });
 
         // populate rows
@@ -156,6 +206,22 @@
             rowData += '</tr>';
             $('#tableBody').append(rowData);
         });
+    }
+    function forecastFunction(customTableId, column1, column2, column1_x) {
+        let data = {
+            customTableId: customTableId,
+            column1: column1,
+            column2: column2,
+            column1_x: column1_x,
+        }
+        $.post('/api/forecast/', {data: JSON.stringify(data)}, function (
+            response
+        ) {
+            console.log(response);
+            if(response !== undefined) {
+                $('#forecastingResult').text(`${column2}: ${response.predictedVal}`);
+            }
+        })
     }
 </script>
 {% endblock %}
