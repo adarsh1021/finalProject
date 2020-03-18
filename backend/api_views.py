@@ -156,9 +156,18 @@ def create_custom_table(request):
     return JsonResponse({"success": True})
 
 
-def analytics(request, aggregate_fun):
+@csrf_exempt
+@login_required(login_url="/sign_in")
+def analytics(request):
 
-    pass
+    if request.method != "POST":
+        return JsonResponse(
+            {"success": False, "message": "Use a POST request."}
+        )
+
+    # TODO: Cache the dataframe later
+    customTableId = request.POST.get("customTableId")
+    functions = request.POST.get("functions")
 
     # if(cache.get('table')):
     #     table = cache.get('table')
