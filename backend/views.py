@@ -52,7 +52,9 @@ def analytics(request, customTableId=None):
             request, "backend/analytics.html", {"customTables": customTables}
         )
     else:
-        response = render(request, "backend/analytics.html")
+        response = render(
+            request, "backend/analytics.html", {"customTableId": customTableId}
+        )
     return response
 
 
@@ -66,7 +68,8 @@ def sign_up(request):
 
     return render(request, "backend/sign_up.html")
 
+
 def table_disp(request):
-    
+
     return render(request, "backend/table_disp.html")
 

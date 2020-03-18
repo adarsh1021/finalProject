@@ -24,6 +24,13 @@
 
         <!-- Custom styles for this template-->
         <link href="/static/css/sb-admin-2.css" rel="stylesheet" />
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="/static/vendor/jquery/jquery.min.js"></script>
+        <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
     </head>
 
     <body>
@@ -86,13 +93,6 @@
         </div>
     </body>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/static/vendor/jquery/jquery.min.js"></script>
-    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="/static/js/sb-admin-2.min.js"></script>
 
@@ -141,15 +141,16 @@
                 for (
                     var i = 0;
                     i <
-                    $(`#campaign1Fields #${$('#campaign1').val()} div div`).length;
+                    $(`#campaign1Fields #${$('#campaign1').val()} div div`)
+                        .length;
                     i++
                 ) {
                     let checked = $(
-                            `#campaign1Fields #${$(
-                                '#campaign1'
-                            ).val()} div div:eq(${i}) input`
-                        )[0].checked;
-                    if(checked) {
+                        `#campaign1Fields #${$(
+                            '#campaign1'
+                        ).val()} div div:eq(${i}) input`
+                    )[0].checked;
+                    if (checked) {
                         let key = $.trim(
                             $(
                                 `#campaign1Fields #${$(

@@ -55,6 +55,9 @@ class CustomTable(models.Model):
 
         return finalDf
 
+    def get_json(self):
+        return self.get_df().to_json()
+
 
 class Campaign(models.Model):
     """ 

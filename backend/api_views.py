@@ -164,10 +164,64 @@ def analytics(request):
         return JsonResponse(
             {"success": False, "message": "Use a POST request."}
         )
-
     # TODO: Cache the dataframe later
-    customTableId = request.POST.get("customTableId")
-    functions = request.POST.get("functions")
+    data = json.loads(request.POST.get("data"))
+    customTableId = data.get("customTableId")
+    functions = data.get("functions")
+
+    customTable = CustomTable.objects.get(id=customTableId)
+
+    if functions == {}:
+        tableJson = customTable.get_json()
+        return JsonResponse(
+            {"table": {"name": customTable.name, "data": tableJson}}
+        )
+    else:
+        tableDf = customTable.get_df()
+        fn = list(functions.keys())[0]
+        column = functions[fn]
+
+        if fn in ("sum", "mean", "median", "min", "max"):
+            result = (
+                f"{fn.upper()}({column}) = {getattr(tableDf[column], fn)()}"
+            )
+            return JsonResponse({"result": result, "table": False})
+        elif fn in ("groupby"):
+            resultTable = tableDf.groupby(column).sum()
+            resultTable = resultTable.reset_index()
+            return JsonResponse(
+                {
+                    "table": {
+                        "data": resultTable.to_json(),
+                        "name": f"{customTable.name}.GROUPBY({column})",
+                    }
+                }
+            )
+        elif fn in ("pivot"):
+            resultTable = tableDf.pivot(columns=column)
+            resultTable = resultTable.reset_index()
+            resultTable.columns = list(
+                c[0] + "_" + c[1] for c in resultTable.columns
+            )
+            return JsonResponse(
+                {
+                    "table": {
+                        "data": resultTable.to_json(),
+                        "name": f"{customTable.name}.PIVOT({column})",
+                    }
+                }
+            )
+        elif fn in ("T"):
+            resultTable = tableDf.T
+            resultTable = resultTable.reset_index()
+            return JsonResponse(
+                {
+                    "table": {
+                        "data": resultTable.to_json(),
+                        "name": f"{customTable.name}.PIVOT({column})",
+                    }
+                }
+            )
 
     # if(cache.get('table')):
     #     table = cache.get('table')
