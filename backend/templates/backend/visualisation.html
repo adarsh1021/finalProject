@@ -1,9 +1,140 @@
 {% extends 'backend/base.html' %} {% block content %} 
 
 {% include 'backend/sidebar.html' %}
+<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+        {% include 'backend/topbar.html' %}
+        <div class="container-fluid">
+            <h2>Analytics</h2>
+            {% if customTables %}
+            <div class="row">
+                <div class="container-fluid">
+                    <h3>Select a Table</h3>
+                    <br />
+                    {% for table in customTables %}
+                    <a href="{% url 'backend:visualisation' table.id %}">
+                        <div class="col col-2">
+                            <div class="card bg-primary text-white shadow">
+                                <div class="card-body">
+                                    {{ table.name }}
+                                    <!-- <div class="text-white-50 small">
+                                            {{ campaign.created_at }}
+                                        </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <h1 class="h3 mb-2 text-gray-800">Line Graphs</h1>
+            <br>
 
-<h1 class="h3 mb-2 text-gray-800">Line Graphs</h1>
+            <div class="row">
+                <input
+                    type="hidden"
+                    id="customTableId"
+                    value="{{ customTableId }}"
+                />
+                <div id='line-graph' style="width:600px;height:250px;"></div>
 
-{{ customtables }}
+                <h1 class="h3 mb-2 text-gray-800">Bar Graphs</h1>
+                <div id='bar-graph' style="width:600px;height:250px;"></div>
+
+                <h1 class="h3 mb-2 text-gray-800">Bar Graphs</h1>
+                <div id='pie-chart'></div>
+                
+                <div id='3d'></div>
+            </div>
+            {% endif %}
+
+<script type="text/javascript">
+ $(document).ready(function() {
+        if ($('#customTableId').val()) {
+            loadTable(customTableId);
+        }
+
+    });
+
+    function loadTable(customTableId) {
+        $.post(
+            '/api/analytics',
+            { data: JSON.stringify({ customTableId: 4, functions: {} }) },
+            function(response) {
+                var table = response.table;
+                var data = $.parseJSON(table.data);
+                createGraphs(data);
+            }
+        );
+    }
+
+    function createGraphs(data) {
+
+        ad_id=Object.keys(data['ad_id']).map(Number);
+        impressions=Object.values(data['impressions']).map(Number);
+        spent_cost=Object.values(data['spent__cost']).map(Number);
+        
+
+        LINE_GRAPH = document.getElementById('line-graph');
+        Plotly.newPlot( LINE_GRAPH, [{
+        x: ad_id,
+        y: impressions }], {
+        margin: { t: 0 } } );
+
+        var bar_data = [
+            {
+                x: ad_id,
+                y: impressions,
+                type: 'bar'
+            }
+        ];
+
+        Plotly.newPlot('bar-graph', bar_data);
+
+
+        var pie_data = [{
+            values: impressions,
+            labels: ad_id,
+            type: 'pie'
+        }];
+
+        var pie_layout = {
+            height: 400,
+            width: 500
+        };  
+
+
+        Plotly.newPlot('pie-chart', pie_data, pie_layout);
+
+
+        var trace1 = {
+            x:ad_id, y:impressions, z: spent_cost,
+            mode: 'markers',
+            marker: {
+                size: 12,
+                line: {
+                color: 'rgba(217, 217, 217, 0.14)',
+                width: 0.5},
+                opacity: 0.8},
+            type: 'scatter3d'
+        };
+
+
+        var big_data = [trace1];
+        var big_layout = {margin: {
+            l: 0,
+            r: 0,
+            b: 0,
+            t: 0
+        }};
+
+        Plotly.newPlot('3d', big_data, big_layout);
+                    
+    }
+
+</script>
+
 
 {% endblock %}
