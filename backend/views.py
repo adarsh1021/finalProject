@@ -73,3 +73,17 @@ def table_disp(request):
 
     return render(request, "backend/table_disp.html")
 
+def visualisation(request,customTableId=None):
+
+    user = request.user
+    if customTableId is None:
+        customTables = CustomTable.objects.filter(user=user)
+        response = render(
+            request, "backend/visualisation.html", {"customTables": customTables}
+        )
+    else:
+        response = render(
+            request, "backend/visualisation.html", {"customTableId": customTableId}
+        )
+    return response
+

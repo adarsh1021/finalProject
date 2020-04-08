@@ -20,6 +20,9 @@ urlpatterns = [
     ),
     path("analytics/", views.analytics, name="analytics"),
     path("analytics/<int:customTableId>", views.analytics, name="analytics"),
+    #visualisation
+    path('visualisation/',views.visualisation,name='visualisation'),
+    path("visualisation/<int:customTableId>", views.visualisation, name="visualisation"),
     # API endpoints
     path("api/sign_up", api_views.sign_up),
     path("api/sign_in", api_views.sign_in),
