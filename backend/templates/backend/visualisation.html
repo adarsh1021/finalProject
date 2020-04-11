@@ -29,9 +29,48 @@
                 {% endfor %}
             </div>
             {% else %}
-            <h1 class="h3 mb-2 text-gray-800">Line Graphs</h1>
+
+            <h1 class="h3 mb-2 text-gray-800">Graphs</h1>
+            <br>
+            <label>Choose attributes for line and bar graphs</label>
+            <select id="lb_attr1">
+                <option value='0'>Attribute 1</option>
+
+            </select>
+            <select id="lb_attr2">
+                <option value='0'>Attribute 2</option>
+
+            </select>
+
+            <label>Choose attributes for pie graph: Values</label>
+            <select id="pie_attr1">
+                <option value='0'>Attribute 1</option>
+            </select>
+            <label>Lables</label>
+            <select id="pie_attr2">
+                <option value='0'>Attribute 2</option>
+
+            </select>
             <br>
 
+            <label>Choose attributes for 3-D scatter graph</label>
+            <select id="md_attr1">
+                <option value='0'>Attribute 1</option>
+
+            </select>
+            <select id="md_attr2">
+                <option value='0'>Attribute 2</option>
+
+            </select>
+            <select id="md_attr3">
+                <option value='0'>Attribute 3</option>
+
+            </select>
+            <br>
+
+            <button class="btn-primary" id='attr_sel' onclick="values()">OK</button>
+
+            
             <div class="row">
                 <input
                     type="hidden"
@@ -44,13 +83,14 @@
                 <div id='bar-graph' style="width:600px;height:250px;"></div>
 
                 <h1 class="h3 mb-2 text-gray-800">Bar Graphs</h1>
-                <div id='pie-chart'></div>
+                <div id='pie-graph' style="width:700px;height:350px;"></div>
                 
                 <div id='3d'></div>
             </div>
             {% endif %}
 
 <script type="text/javascript">
+var data={};
  $(document).ready(function() {
         if ($('#customTableId').val()) {
             loadTable(customTableId);
@@ -64,53 +104,84 @@
             { data: JSON.stringify({ customTableId: 4, functions: {} }) },
             function(response) {
                 var table = response.table;
-                var data = $.parseJSON(table.data);
-                createGraphs(data);
+                data = $.parseJSON(table.data);
+                createoptions(data);
             }
         );
     }
 
-    function createGraphs(data) {
+    function createoptions(data) {
 
-        ad_id=Object.keys(data['ad_id']).map(Number);
-        impressions=Object.values(data['impressions']).map(Number);
-        spent_cost=Object.values(data['spent__cost']).map(Number);
+        var k=1;
+        var options="";
+        var graph_option=['lb','pie','md'];
+
+        for(var i in data){
+            options+="<option id='"+k+"'>"+i+"</option>";
+            k+=1;
+        }
+        for(var i=0;i<3;i++){
+            document.getElementById(graph_option[i]+'_attr1').innerHTML=options;
+            document.getElementById(graph_option[i]+'_attr2').innerHTML=options;
+
+        }
+
+        document.getElementById('md_attr3').innerHTML=options;
+    }
+
+    function values(){
+        lb_1=document.getElementById('lb_attr1').options[document.getElementById('lb_attr1').selectedIndex].text;
+        lb_2=document.getElementById('lb_attr2').options[document.getElementById('lb_attr2').selectedIndex].text;
+        pie_1=document.getElementById('pie_attr1').options[document.getElementById('pie_attr1').selectedIndex].text;
+        pie_2=document.getElementById('pie_attr2').options[document.getElementById('pie_attr2').selectedIndex].text;
+        md_1=document.getElementById('md_attr1').options[document.getElementById('md_attr1').selectedIndex].text;
+        md_2=document.getElementById('md_attr2').options[document.getElementById('md_attr2').selectedIndex].text;
+        md_3=document.getElementById('md_attr3').options[document.getElementById('md_attr3').selectedIndex].text;
+
         
+        console.log(lb_1,lb_2,pie_1,pie_2,md_1,md_2,md_3);
+        
+        lb_x=Object.keys(data[lb_1]).map(Number);
+        lb_y=Object.values(data[lb_2]).map(Number);
+        
+        pie_values=Object.keys(data[pie_1]).map(Number);
+        pie_lables=Object.values(data[pie_2]).map(Number);
 
-        LINE_GRAPH = document.getElementById('line-graph');
-        Plotly.newPlot( LINE_GRAPH, [{
-        x: ad_id,
-        y: impressions }], {
-        margin: { t: 0 } } );
+        md_x=Object.keys(data[md_1]).map(Number);
+        md_y=Object.keys(data[md_1]).map(Number);
+        md_z=Object.values(data[md_2]).map(Number);
 
-        var bar_data = [
-            {
-                x: ad_id,
-                y: impressions,
-                type: 'bar'
-            }
-        ];
 
-        Plotly.newPlot('bar-graph', bar_data);
+        var graph_no=2;
+        var graph_type=['line','bar'];
+        var graph_data=[];
+
+        for(i=0;i<graph_no;i++){
+            graph_data = [
+                {
+                    x: lb_x,
+                    y: lb_y,
+                    type: graph_type[i],
+                }
+            ];
+            Plotly.newPlot(graph_type[i]+'-graph', graph_data);
+        }
+
 
 
         var pie_data = [{
-            values: impressions,
-            labels: ad_id,
+            values: pie_values,
+            labels: pie_lables,
             type: 'pie'
         }];
 
-        var pie_layout = {
-            height: 400,
-            width: 500
-        };  
 
 
-        Plotly.newPlot('pie-chart', pie_data, pie_layout);
+        Plotly.newPlot('pie-graph', pie_data);
 
 
         var trace1 = {
-            x:ad_id, y:impressions, z: spent_cost,
+            x:md_x, y:md_y, z: md_z,
             mode: 'markers',
             marker: {
                 size: 12,
@@ -131,6 +202,13 @@
         }};
 
         Plotly.newPlot('3d', big_data, big_layout);
+        
+    }
+
+
+
+
+    function creategraphs(data){
                     
     }
 
