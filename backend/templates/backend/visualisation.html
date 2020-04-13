@@ -55,7 +55,7 @@
                         <option value='0'>Attribute 2</option>
                     </select>
                 </div>
-    
+
                 <div class="col-4">
                     <label>Choose attributes for 3-D scatter graph</label>
                     <select class="custom-select my-1 mr-sm-2" id="md_attr1">
@@ -107,8 +107,9 @@
             </div>
             <div class="modal-body text-center">
                 <button class="btn btn-lg btn-primary">Generate Report</button>
-                <button id="exportCSV" class="btn btn-lg btn-primary">Export
-                    CSV</button>
+                <a id="exportCSV" class="btn btn-lg btn-primary"
+                    href="/api/export/{{ customTableId }}">Export
+                    CSV</a>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary"
@@ -123,11 +124,6 @@
         if ($('#customTableId').val()) {
             loadTable(customTableId);
         }
-
-        $("#exportCSV").click(function () {
-            console.log("scsv");
-        });
-
     });
 
     function loadTable(customTableId) {

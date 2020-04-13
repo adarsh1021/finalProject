@@ -34,5 +34,5 @@ urlpatterns = [
     path("api/create_custom_table", api_views.create_custom_table),
     path("api/analytics", api_views.analytics),
     path("api/forecast/", api_views.forecast),
-    path("api/export/", api_views.export_csv),
+    path("api/export/<int:customTableId>", api_views.export_csv),
 ]
