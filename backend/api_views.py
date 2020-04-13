@@ -258,7 +258,7 @@ def forecast(request):
 def export_csv(request, customTableId):
     customTable = CustomTable.objects.get(id=int(customTableId))
     customTableDf = customTable.get_df()
-
+    # https://gist.github.com/jonperron/733c3ead188f72f0a8a6f39e3d89295d
     response = HttpResponse(content_type="text/csv")
     response[
         "Content-Disposition"

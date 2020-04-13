@@ -79,24 +79,36 @@
 
             <hr>
 
-            <div id="report">
+            <div id="report" class="row">
                 <input type="hidden" id="customTableId"
                     value="{{ customTableId }}" />
 
-                <h1 class="h3 mb-2 text-gray-800">Line graph</h1>
-                <div id='line-graph' style="width:600px;height:250px;"></div>
-                <br>
-
-                <h1 class="h3 mb-2 text-gray-800">Bar graph</h1>
-                <div id='bar-graph' style="width:600px;height:250px;"></div>
-                <br>
-
-                <h1 class="h3 mb-2 text-gray-800">Pie graph</h1>
-                <div id='pie-graph' style="width:700px;height:350px;"></div>
-                <br>
-
-                <h1 class="h3 mb-2 text-gray-800">3-D graph</h1>
-                <div id='3d'></div>
+                <div class="row">
+                    <div class="col">
+                        <h1 class="h3 mb-2 text-gray-800">Line graph</h1>
+                        <div id='line-graph' style="width:700px;height:350px;">
+                        </div>
+                        <br>
+                    </div>
+                    <div class="col">
+                        <h1 class="h3 mb-2 text-gray-800">Bar graph</h1>
+                        <div id='bar-graph' style="width:700px;height:350px;">
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h1 class="h3 mb-2 text-gray-800">Pie graph</h1>
+                        <div id='pie-graph' style="width:700px;height:350px;">
+                        </div>
+                        <br>
+                    </div>
+                    <div class="col">
+                        <h1 class="h3 mb-2 text-gray-800">Scatter Plot</h1>
+                        <div id='3d' style="width:700px;height:350px;"></div>
+                    </div>
+                </div>
             </div>
             {% endif %}
         </div>
@@ -115,7 +127,8 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                <button class="btn btn-lg btn-primary" onclick="generateReport()">Generate Report</button>
+                <button class="btn btn-lg btn-primary"
+                    onclick="generateReport()">Generate Report</button>
                 <a id="exportCSV" class="btn btn-lg btn-primary"
                     href="/api/export/{{ customTableId }}">Export
                     CSV</a>
@@ -181,9 +194,9 @@
             var imgData = canvas.toDataURL("image/jpeg", 1.0);
             var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
             pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-            for (var i = 1; i <= totalPDFPages; i++) { 
+            for (var i = 1; i <= totalPDFPages; i++) {
                 pdf.addPage(PDF_Width, PDF_Height);
-                pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+                pdf.addImage(imgData, 'JPG', top_left_margin, (PDF_Height * i), canvas_image_width, canvas_image_height);
             }
             pdf.save("Report.pdf");
         });
@@ -240,18 +253,24 @@
         Plotly.newPlot('pie-graph', pie_data);
 
 
+        // var trace1 = {
+        //     x: md_x, y: md_y, z: md_z,
+        //     mode: 'markers',
+        //     marker: {
+        //         size: 12,
+        //         line: {
+        //             color: 'rgba(217, 217, 217, 0.14)',
+        //             width: 0.5
+        //         },
+        //         opacity: 0.8
+        //     },
+        //     type: 'scatter3d'
+        // };
         var trace1 = {
-            x: md_x, y: md_y, z: md_z,
+            x: md_x,
+            y: md_y,
             mode: 'markers',
-            marker: {
-                size: 12,
-                line: {
-                    color: 'rgba(217, 217, 217, 0.14)',
-                    width: 0.5
-                },
-                opacity: 0.8
-            },
-            type: 'scatter3d'
+            type: 'scatter'
         };
 
 
