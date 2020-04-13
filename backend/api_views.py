@@ -251,3 +251,12 @@ def forecast(request):
     predictedVal = lr.predict(np.reshape([int(data.get("column1_x"))], (-1, 1)))
 
     return JsonResponse({"predictedVal": predictedVal[0][0]})
+
+
+@csrf_exempt
+@login_required(login_url="/sign_in")
+def export_csv(request):
+    data = json.loads(request.POST.get("data"))
+    customTable = CustomTable.objects.get(id=data.get("customTableId"))
+    customTableDf = customTable.get_df()
+
