@@ -33,41 +33,42 @@
             <h1 class="h3 mb-2 text-gray-800">Graphs</h1>
 
             <br>
-            <label>Choose attributes for line and bar graphs</label>
-            <select id="lb_attr1">
-                <option value='0'>Attribute 1</option>
 
-            </select>
-            <select id="lb_attr2">
-                <option value='0'>Attribute 2</option>
+            <div class="row">
+                <div class="col-4">
+                    <label>Choose attributes for line and bar graphs</label>
+                    <select class="custom-select my-1 mr-sm-2" id="lb_attr1">
+                        <option value='0'>Attribute 1</option>
+                    </select>
+                    <select class="custom-select my-1 mr-sm-2" id="lb_attr2">
+                        <option value='0'>Attribute 2</option>
+                    </select>
+                </div>
 
-            </select>
-
-            <label>Choose attributes for pie graph: Values</label>
-            <select id="pie_attr1">
-                <option value='0'>Attribute 1</option>
-            </select>
-            <label>Lables</label>
-            <select id="pie_attr2">
-                <option value='0'>Attribute 2</option>
-
-            </select>
-            <br>
-
-            <label>Choose attributes for 3-D scatter graph</label>
-            <select id="md_attr1">
-                <option value='0'>Attribute 1</option>
-
-            </select>
-            <select id="md_attr2">
-                <option value='0'>Attribute 2</option>
-
-            </select>
-            <select id="md_attr3">
-                <option value='0'>Attribute 3</option>
-
-            </select>
-            <br>
+                <div class="col-4">
+                    <label>Choose attributes for pie graph: Values</label>
+                    <select class="custom-select my-1 mr-sm-2" id="pie_attr1">
+                        <option value='0'>Attribute 1</option>
+                    </select>
+                    <label>Lables</label>
+                    <select class="custom-select my-1 mr-sm-2" id="pie_attr2">
+                        <option value='0'>Attribute 2</option>
+                    </select>
+                </div>
+    
+                <div class="col-4">
+                    <label>Choose attributes for 3-D scatter graph</label>
+                    <select class="custom-select my-1 mr-sm-2" id="md_attr1">
+                        <option value='0'>Attribute 1</option>
+                    </select>
+                    <select class="custom-select my-1 mr-sm-2" id="md_attr2">
+                        <option value='0'>Attribute 2</option>
+                    </select>
+                    <select class="custom-select my-1 mr-sm-2" id="md_attr3">
+                        <option value='0'>Attribute 3</option>
+                    </select>
+                </div>
+            </div>
 
             <button class="btn btn-primary" id='attr_sel'
                 onclick="values()">OK</button>
