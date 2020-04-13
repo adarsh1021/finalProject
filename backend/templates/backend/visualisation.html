@@ -70,23 +70,32 @@
                 </div>
             </div>
 
+            <br>
+
             <button class="btn btn-primary" id='attr_sel'
                 onclick="values()">OK</button>
             <button class="btn btn-primary" data-toggle="modal"
                 data-target="#exportModal">Export</button>
 
+            <hr>
 
-            <div class="row">
+            <div id="report">
                 <input type="hidden" id="customTableId"
                     value="{{ customTableId }}" />
+
+                <h1 class="h3 mb-2 text-gray-800">Line graph</h1>
                 <div id='line-graph' style="width:600px;height:250px;"></div>
+                <br>
 
-                <h1 class="h3 mb-2 text-gray-800">Bar Graphs</h1>
+                <h1 class="h3 mb-2 text-gray-800">Bar graph</h1>
                 <div id='bar-graph' style="width:600px;height:250px;"></div>
+                <br>
 
-                <h1 class="h3 mb-2 text-gray-800">Bar Graphs</h1>
+                <h1 class="h3 mb-2 text-gray-800">Pie graph</h1>
                 <div id='pie-graph' style="width:700px;height:350px;"></div>
+                <br>
 
+                <h1 class="h3 mb-2 text-gray-800">3-D graph</h1>
                 <div id='3d'></div>
             </div>
             {% endif %}
@@ -106,7 +115,7 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                <button class="btn btn-lg btn-primary">Generate Report</button>
+                <button class="btn btn-lg btn-primary" onclick="generateReport()">Generate Report</button>
                 <a id="exportCSV" class="btn btn-lg btn-primary"
                     href="/api/export/{{ customTableId }}">Export
                     CSV</a>
@@ -155,6 +164,29 @@
         }
 
         document.getElementById('md_attr3').innerHTML = options;
+    }
+
+    function CreatePDFfromHTML() {
+        var HTML_Width = $("#report").width();
+        var HTML_Height = $("#report").height();
+        var top_left_margin = 15;
+        var PDF_Width = HTML_Width + (top_left_margin * 2);
+        var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+        var canvas_image_width = HTML_Width;
+        var canvas_image_height = HTML_Height;
+
+        var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+        html2canvas($("#report")[0]).then(function (canvas) {
+            var imgData = canvas.toDataURL("image/jpeg", 1.0);
+            var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+            pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+            for (var i = 1; i <= totalPDFPages; i++) { 
+                pdf.addPage(PDF_Width, PDF_Height);
+                pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+            }
+            pdf.save("Report.pdf");
+        });
     }
 
     function values() {
@@ -237,8 +269,8 @@
 
     }
 
-    function creategraphs(data) {
-
+    function generateReport(data) {
+        CreatePDFfromHTML();
     }
 
 </script>
