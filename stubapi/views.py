@@ -1,6 +1,11 @@
+from rest_framework import generics
+from django_filters import rest_framework as filters
 import pandas as pd
+
 from django.shortcuts import render, HttpResponse
 
+from .models import Facebook, Twitter
+from .serializers import FacebookSerializer
 
 smdf1 = pd.read_csv("stubapi/data/sm1.csv")
 smdf2 = pd.read_csv("stubapi/data/sm2.csv")
@@ -25,9 +30,8 @@ def sm2(request):
     return HttpResponse(response, content_type="application/json")
 
 
-def facebook(request):
-    return render(request, "facebook.html")
-
-
-def twitter(request):
-    pass
+class facebook_api(generics.ListAPIView):
+    queryset = Facebook.objects.all()
+    serializer_class = FacebookSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_fields = ["id", "campaign_id"]
