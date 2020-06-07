@@ -5,4 +5,8 @@ from stubapi import views
 app_name = "backend"
 
 
-urlpatterns = [path("sm1/", views.sm1), path("sm2/", views.sm2)]
+urlpatterns = [
+    path("sm1/", views.sm1),
+    path("sm2/", views.sm2),
+    path("facebook/", views.facebook),
+]

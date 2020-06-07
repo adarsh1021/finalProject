@@ -23,3 +23,11 @@ def sm2(request):
     start, end = map(int, request.GET.get("rows", "0:10").split(":"))
     response = smdf2[fields].iloc[start:end, :].to_json()
     return HttpResponse(response, content_type="application/json")
+
+
+def facebook(request):
+    return render(request, "facebook.html")
+
+
+def twitter(request):
+    pass

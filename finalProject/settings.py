@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "celery_scheduler",
     "backend",
+    "stubapi",
 ]
 
 MIDDLEWARE = [

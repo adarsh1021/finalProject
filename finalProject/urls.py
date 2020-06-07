@@ -20,5 +20,9 @@ from django.urls import path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("backend.urls")),
-    path("stubapi/", include("stubapi.urls")),
+    path("stub/", include("stubapi.urls")),
+    # stub/facebook/api/
+    # stub/facebook/post - create new post form
+    # stub/facebook/ - facebook home
+    # stub/twitter/api
 ]
