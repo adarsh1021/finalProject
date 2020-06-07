@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.response import Response
 from django_filters import rest_framework as filters
 import pandas as pd
 
@@ -30,8 +31,26 @@ def sm2(request):
     return HttpResponse(response, content_type="application/json")
 
 
+def facebook(request):
+    return render(request, "facebook.html")
+
+
 class facebook_api(generics.ListAPIView):
     queryset = Facebook.objects.all()
     serializer_class = FacebookSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_fields = ["id", "campaign_id"]
+    filterset_fields = ["id", "campaign_id", "date"]
+
+    def post(self, request):
+        obj = FacebookSerializer(data=request.data)
+        obj.is_valid()
+        obj.save()
+        return Response(status=200)
+
+
+# class InvoiceAPIView(APIView):
+#     def post(self, request):
+#         serializer = InvoiceSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save(user=request.user, status=Invoice.SENT)
+#         return Response(status=status.HTTP_201_CREATED)

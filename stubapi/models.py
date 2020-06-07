@@ -7,6 +7,7 @@ from datetime import datetime
 class Facebook(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
+    image = models.CharField(max_length=500)
     campaign_id = models.IntegerField(default=1123)
     date = models.DateTimeField(default=datetime.now, blank=True)
     likes_count = models.IntegerField(default=0)
@@ -19,6 +20,7 @@ class Facebook(models.Model):
 class Twitter(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
+    image = models.CharField(max_length=500)
     campaign_id = models.IntegerField(default=1123)
     date = models.DateTimeField(default=datetime.now, blank=True)
     likes_count = models.IntegerField(default=0)

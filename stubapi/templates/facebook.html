@@ -38,7 +38,7 @@
                                 class="navbar-brand logo">b</a>
                         </div>
                         <nav class="collapse navbar-collapse" role="navigation">
-                            <form class="navbar-form navbar-left">
+                            <div class="navbar-form navbar-left">
                                 <div class="input-group input-group-sm"
                                     style="max-width:360px;">
                                     <input class="form-control"
@@ -50,7 +50,7 @@
                                                 class="glyphicon glyphicon-search"></i></button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                             <ul class="nav navbar-nav">
                                 <li>
                                     <a href="#"><i
@@ -205,8 +205,10 @@
                         aria-hidden="true">x</button>
                     <h3>Create New Post</h3>
                 </div>
-                <div class="modal-body" style="padding: 10px;">
-                    <form class="form center-block">
+                {% csrf_token %}
+                <form class="form center-block" action="/stub/facebook/api/"
+                    method="POST">
+                    <div class="modal-body" style="padding: 10px;">
                         <div class="form-group">
                             <label for="postTitle">Title: </label>
                             <input type="text" id="postTitle" name="title"
@@ -218,14 +220,14 @@
                             <input type="text" id="postImage" name="image"
                                 class="form-control">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <div>
-                        <button class="btn btn-primary" data-dismiss="modal"
-                            aria-hidden="true">Post</button>
                     </div>
-                </div>
+                    <div class="modal-footer">
+                        <div>
+                            <input class="btn btn-primary" value="Post"
+                                type="submit">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -234,7 +236,14 @@
     <script type="text/javascript"
         src="/static/facebook/js/bootstrap.js"></script>
     <script type="text/javascript">
-
+        $(document).ready(function () {
+            $('form').submit(function (e) {
+                e.preventDefault();
+                $.post('/stub/facebook/api/', $('form').serialize(), function (r) {
+                    console.log(r);
+                });
+            });
+        });
     </script>
 </body>
 
