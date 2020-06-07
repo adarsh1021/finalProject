@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from backend.models import Campaign, CustomTable
+import json
+from plotly.offline import plot
+from plotly.graph_objs import Scatter
+import plotly.graph_objects as go
 
 
 def hello(request):
@@ -73,3 +77,24 @@ def table_disp(request):
 
     return render(request, "backend/table_disp.html")
 
+
+def visualisation(request, customTableId=None):
+
+    user = request.user
+    if customTableId is None:
+        customTables = CustomTable.objects.filter(user=user)
+        response = render(
+            request,
+            "backend/visualisation.html",
+            {"customTables": customTables},
+        )
+    else:
+        customTable = CustomTable.objects.get(id=customTableId)
+        data = json.loads(customTable.get_json())
+
+        response = render(
+            request,
+            "backend/visualisation.html",
+            {"customTableId": customTableId},
+        )
+    return response

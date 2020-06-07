@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
@@ -251,3 +251,23 @@ def forecast(request):
     predictedVal = lr.predict(np.reshape([int(data.get("column1_x"))], (-1, 1)))
 
     return JsonResponse({"predictedVal": predictedVal[0][0]})
+
+
+@csrf_exempt
+@login_required(login_url="/sign_in")
+def export_csv(request, customTableId):
+    customTable = CustomTable.objects.get(id=int(customTableId))
+    customTableDf = customTable.get_df()
+    # https://gist.github.com/jonperron/733c3ead188f72f0a8a6f39e3d89295d
+    response = HttpResponse(content_type="text/csv")
+    response[
+        "Content-Disposition"
+    ] = f"attachment; filename={customTable.name}.csv"
+    customTableDf.to_csv(
+        path_or_buf=response,
+        sep=";",
+        float_format="%.2f",
+        index=False,
+        decimal=",",
+    )
+    return response

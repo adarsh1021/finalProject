@@ -1,0 +1,314 @@
+{% extends 'backend/base.html' %} {% block content %}
+
+{% include 'backend/sidebar.html' %}
+<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+        {% include 'backend/topbar.html' %}
+        <div class="container-fluid">
+            <h2>Visualisation</h2>
+            {% if customTables %}
+            <div class="row">
+                <div class="container-fluid">
+                    <h3>Select a Table</h3>
+                    <br />
+                    {% for table in customTables %}
+                    <a href="{% url 'backend:visualisation' table.id %}">
+                        <div class="col col-2">
+                            <div class="card bg-primary text-white shadow">
+                                <div class="card-body">
+                                    {{ table.name }}
+                                    <!-- <div class="text-white-50 small">
+                                            {{ campaign.created_at }}
+                                        </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+
+            <h1 class="h3 mb-2 text-gray-800">Graphs</h1>
+
+            <br>
+
+            <div class="row">
+                <div class="col-4">
+                    <label>Choose attributes for line and bar graphs</label>
+                    <select class="custom-select my-1 mr-sm-2" id="lb_attr1">
+                        <option value='0'>Attribute 1</option>
+                    </select>
+                    <select class="custom-select my-1 mr-sm-2" id="lb_attr2">
+                        <option value='0'>Attribute 2</option>
+                    </select>
+                </div>
+
+                <div class="col-4">
+                    <label>Choose attributes for pie graph: Values</label>
+                    <select class="custom-select my-1 mr-sm-2" id="pie_attr1">
+                        <option value='0'>Attribute 1</option>
+                    </select>
+                    <label>Lables</label>
+                    <select class="custom-select my-1 mr-sm-2" id="pie_attr2">
+                        <option value='0'>Attribute 2</option>
+                    </select>
+                </div>
+
+                <div class="col-4">
+                    <label>Choose attributes for 3-D scatter graph</label>
+                    <select class="custom-select my-1 mr-sm-2" id="md_attr1">
+                        <option value='0'>Attribute 1</option>
+                    </select>
+                    <select class="custom-select my-1 mr-sm-2" id="md_attr2">
+                        <option value='0'>Attribute 2</option>
+                    </select>
+                    <select class="custom-select my-1 mr-sm-2" id="md_attr3">
+                        <option value='0'>Attribute 3</option>
+                    </select>
+                </div>
+            </div>
+
+            <br>
+
+            <button class="btn btn-primary" id='attr_sel'
+                onclick="values()">OK</button>
+            <button class="btn btn-primary" data-toggle="modal"
+                data-target="#exportModal">Export</button>
+
+            <br>
+            <br>
+
+            <input
+                type="text"
+                class="form-control form-control-user my-1 mr-sm-2"
+                name="column1-value"
+                placeholder="Report custom text"
+                onchange="reportGenerationCustomTextChange(this)"
+            />
+
+            <hr>
+
+
+            <div id="report">
+                <h5 id="reportGenerationCustomText"></h5>
+                <input type="hidden" id="customTableId"
+                    value="{{ customTableId }}" />
+
+                <div class="row">
+                    <div class="col">
+                        <h1 class="h3 mb-2 text-gray-800">Line graph</h1>
+                        <div id='line-graph' style="width:700px;height:350px;">
+                        </div>
+                        <br>
+                    </div>
+                    <div class="col">
+                        <h1 class="h3 mb-2 text-gray-800">Bar graph</h1>
+                        <div id='bar-graph' style="width:700px;height:350px;">
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h1 class="h3 mb-2 text-gray-800">Pie graph</h1>
+                        <div id='pie-graph' style="width:700px;height:350px;">
+                        </div>
+                        <br>
+                    </div>
+                    <div class="col">
+                        <h1 class="h3 mb-2 text-gray-800">Scatter Plot</h1>
+                        <div id='3d' style="width:700px;height:350px;"></div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog"
+    aria-labelledby="exportModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Export Table</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <button class="btn btn-lg btn-primary"
+                    onclick="generateReport()">Generate Report</button>
+                <a id="exportCSV" class="btn btn-lg btn-primary"
+                    href="/api/export/{{ customTableId }}">Export
+                    CSV</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var data = {};
+    $(document).ready(function () {
+        if ($('#customTableId').val()) {
+            loadTable(customTableId);
+        }
+    });
+
+    function loadTable(customTableId) {
+        $.post(
+            '/api/analytics',
+            { data: JSON.stringify({ customTableId: 4, functions: {} }) },
+            function (response) {
+                var table = response.table;
+                data = $.parseJSON(table.data);
+                createoptions(data);
+            }
+        );
+    }
+
+    function createoptions(data) {
+
+        var k = 1;
+        var options = "";
+        var graph_option = ['lb', 'pie', 'md'];
+
+        for (var i in data) {
+            options += "<option id='" + k + "'>" + i + "</option>";
+            k += 1;
+        }
+        for (var i = 0; i < 3; i++) {
+            document.getElementById(graph_option[i] + '_attr1').innerHTML = options;
+            document.getElementById(graph_option[i] + '_attr2').innerHTML = options;
+
+        }
+
+        document.getElementById('md_attr3').innerHTML = options;
+    }
+
+    function CreatePDFfromHTML() {
+        var HTML_Width = $("#report").width();
+        var HTML_Height = $("#report").height();
+        var top_left_margin = 15;
+        var PDF_Width = HTML_Width + (top_left_margin * 2);
+        var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+        var canvas_image_width = HTML_Width;
+        var canvas_image_height = HTML_Height;
+
+        var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+        html2canvas($("#report")[0]).then(function (canvas) {
+            var imgData = canvas.toDataURL("image/jpeg", 1.0);
+            var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+            pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+            for (var i = 1; i <= totalPDFPages; i++) {
+                pdf.addPage(PDF_Width, PDF_Height);
+                pdf.addImage(imgData, 'JPG', top_left_margin, (PDF_Height * i), canvas_image_width, canvas_image_height);
+            }
+            pdf.save("Report.pdf");
+        });
+    }
+
+    function values() {
+        lb_1 = document.getElementById('lb_attr1').options[document.getElementById('lb_attr1').selectedIndex].text;
+        lb_2 = document.getElementById('lb_attr2').options[document.getElementById('lb_attr2').selectedIndex].text;
+        pie_1 = document.getElementById('pie_attr1').options[document.getElementById('pie_attr1').selectedIndex].text;
+        pie_2 = document.getElementById('pie_attr2').options[document.getElementById('pie_attr2').selectedIndex].text;
+        md_1 = document.getElementById('md_attr1').options[document.getElementById('md_attr1').selectedIndex].text;
+        md_2 = document.getElementById('md_attr2').options[document.getElementById('md_attr2').selectedIndex].text;
+        md_3 = document.getElementById('md_attr3').options[document.getElementById('md_attr3').selectedIndex].text;
+
+
+        console.log(lb_1, lb_2, pie_1, pie_2, md_1, md_2, md_3);
+
+        lb_x = Object.keys(data[lb_1]).map(Number);
+        lb_y = Object.values(data[lb_2]).map(Number);
+
+        pie_values = Object.keys(data[pie_1]).map(Number);
+        pie_lables = Object.values(data[pie_2]).map(Number);
+
+        md_x = Object.keys(data[md_1]).map(Number);
+        md_y = Object.keys(data[md_1]).map(Number);
+        md_z = Object.values(data[md_2]).map(Number);
+
+
+        var graph_no = 2;
+        var graph_type = ['line', 'bar'];
+        var graph_data = [];
+
+        for (i = 0; i < graph_no; i++) {
+            graph_data = [
+                {
+                    x: lb_x,
+                    y: lb_y,
+                    type: graph_type[i],
+                }
+            ];
+            Plotly.newPlot(graph_type[i] + '-graph', graph_data);
+        }
+
+
+
+        var pie_data = [{
+            values: pie_values,
+            labels: pie_lables,
+            type: 'pie'
+        }];
+
+
+
+        Plotly.newPlot('pie-graph', pie_data);
+
+
+        // var trace1 = {
+        //     x: md_x, y: md_y, z: md_z,
+        //     mode: 'markers',
+        //     marker: {
+        //         size: 12,
+        //         line: {
+        //             color: 'rgba(217, 217, 217, 0.14)',
+        //             width: 0.5
+        //         },
+        //         opacity: 0.8
+        //     },
+        //     type: 'scatter3d'
+        // };
+        var trace1 = {
+            x: md_x,
+            y: md_y,
+            mode: 'markers',
+            type: 'scatter'
+        };
+
+
+        var big_data = [trace1];
+        var big_layout = {
+            margin: {
+                l: 0,
+                r: 0,
+                b: 0,
+                t: 0
+            }
+        };
+
+        Plotly.newPlot('3d', big_data, big_layout);
+
+    }
+
+    function generateReport(data) {
+        CreatePDFfromHTML();
+    }
+    function reportGenerationCustomTextChange(component) {
+        console.log("fun")
+        console.log(component.value);
+        $('#reportGenerationCustomText').html(component.value)
+    }
+
+</script>
+{% endblock %}
