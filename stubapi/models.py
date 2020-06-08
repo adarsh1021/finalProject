@@ -5,6 +5,7 @@ from datetime import datetime
 
 
 class Facebook(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, default=None)
     description = models.TextField()
     image = models.CharField(max_length=500, default=None)

@@ -119,66 +119,68 @@
                                 </div>
 
                                 <!-- posts begin here -->
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <img src="/static/facebook/logo.jpg"
-                                            width="50px"
-                                            style="border-radius: 50%;">
-                                        <span
-                                            style="margin-left: 8px; font-weight: bold; font-size: 1.7rem;">Nike</span>
-                                    </div>
-                                    <div class="panel-body">
-                                        <p class="lead" style="color: black;">
-                                            Post Title</p>
-                                        <p>Post description</p>
-                                        <p>
-                                            <img src="/static/facebook/img/bg_4.jpg"
-                                                class="img-responsive">
-                                        </p>
-                                        <div class="row">
-                                            <div class="col col-md-6">
-                                                12 Likes
+                                {% for post in posts %}
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <img src="/static/facebook/logo.jpg"
+                                                width="50px"
+                                                style="border-radius: 50%;">
+                                            <span
+                                                style="margin-left: 8px; font-weight: bold; font-size: 1.7rem;">Nike</span>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p class="lead" style="color: black;">
+                                                {{ post.title }}</p>
+                                            <p>{{ post.description }}</p>
+                                            <p>
+                                                <img src="{{ post.image }}"
+                                                    class="img-responsive">
+                                            </p>
+                                            <div class="row">
+                                                <div class="col col-md-6">
+                                                    {{ post.likes_count }} Likes
+                                                </div>
+                                                <div
+                                                    class="col col-md-6 text-right">
+                                                    <span>3
+                                                        Comments</span>&nbsp;&nbsp;
+                                                    <span>{{ post.shares_count }} Shares</span>
+                                                </div>
                                             </div>
-                                            <div
-                                                class="col col-md-6 text-right">
-                                                <span>3
-                                                    Comments</span>&nbsp;&nbsp;
-                                                <span>10 Shares</span>
+                                            <hr
+                                                style="margin-left: 15px; margin-right: 15px; margin-bottom: 10px; margin-top: 10px;">
+                                            <div class="row">
+                                                <div
+                                                    class="col col-md-4 text-center">
+                                                    <button data-action="like" onclick="like(this)" post_id={{ post.id }}
+                                                        class="btn btn-action-box">
+                                                        <i
+                                                            class="glyphicon glyphicon-thumbs-up"></i>
+                                                        Like
+                                                    </button>
+                                                </div>
+                                                <div
+                                                    class="col col-md-4 text-center">
+                                                    <button data-action="comment"
+                                                        class="btn btn-action-box">
+                                                        <i
+                                                            class="glyphicon glyphicon-comment"></i>
+                                                        Comment
+                                                    </button>
+                                                </div>
+                                                <div
+                                                    class="col col-md-4 text-center">
+                                                    <button data-action="share" onclick="share(this)" post_id={{ post.id }}
+                                                        class="btn btn-action-box">
+                                                        <i
+                                                            class="glyphicon glyphicon-share"></i>
+                                                        Share
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <hr
-                                            style="margin-left: 15px; margin-right: 15px; margin-bottom: 10px; margin-top: 10px;">
-                                        <div class="row">
-                                            <div
-                                                class="col col-md-4 text-center">
-                                                <button
-                                                    class="btn btn-action-box">
-                                                    <i
-                                                        class="glyphicon glyphicon-thumbs-up"></i>
-                                                    Like
-                                                </button>
-                                            </div>
-                                            <div
-                                                class="col col-md-4 text-center">
-                                                <button
-                                                    class="btn btn-action-box">
-                                                    <i
-                                                        class="glyphicon glyphicon-comment"></i>
-                                                    Comment
-                                                </button>
-                                            </div>
-                                            <div
-                                                class="col col-md-4 text-center">
-                                                <button
-                                                    class="btn btn-action-box">
-                                                    <i
-                                                        class="glyphicon glyphicon-share"></i>
-                                                    Share
-                                                </button>
-                                            </div>
-                                        </div>
                                     </div>
-                                </div>
+                                {% endfor %}
 
                             </div>
                             <!--/row-->
@@ -236,6 +238,16 @@
     <script type="text/javascript"
         src="/static/facebook/js/bootstrap.js"></script>
     <script type="text/javascript">
+        function like(e) {
+            $.post("/stub/facebook/", {'post_id': $(e).attr("post_id"), 'like': true}, function() {
+                window.location.reload();
+            })
+        }
+        function share(e) {
+            $.post("/stub/facebook/", {'post_id': $(e).attr("post_id"), 'share': true}, function() {
+                window.location.reload();
+            })
+        }
         $(document).ready(function () {
             $('form').submit(function (e) {
                 e.preventDefault();

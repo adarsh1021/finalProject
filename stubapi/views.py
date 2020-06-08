@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 import pandas as pd
 
 from django.shortcuts import render, HttpResponse
@@ -32,10 +33,24 @@ def sm2(request):
     return HttpResponse(response, content_type="application/json")
 
 
+@csrf_exempt
 def facebook(request):
     if request.method == "GET":
-        posts = Facebok.objects.all().order_by("-date")
+        posts = Facebook.objects.all().order_by("-date")
         return render(request, "facebook.html", {"posts": posts})
+    elif request.method == "POST":
+        print(request.POST)
+        if request.POST.get("like"):
+            obj = Facebook.objects.get(id=request.POST.get("post_id"))
+            obj.likes_count += 1
+            obj.save()
+            print("like")
+        elif request.POST.get("share"):
+            obj = Facebook.objects.get(id=request.POST.get("post_id"))
+            obj.shares_count += 1
+            obj.save()
+            print("share")
+        return JsonResponse({"msg": "success"})
 
 
 def twitter(request):
