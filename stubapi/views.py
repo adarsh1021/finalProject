@@ -6,7 +6,7 @@ import pandas as pd
 from django.shortcuts import render, HttpResponse
 
 from .models import Facebook, Twitter
-from .serializers import FacebookSerializer
+from .serializers import FacebookSerializer, TwitterSerializer
 
 smdf1 = pd.read_csv("stubapi/data/sm1.csv")
 smdf2 = pd.read_csv("stubapi/data/sm2.csv")
@@ -48,9 +48,14 @@ class facebook_api(generics.ListAPIView):
         return Response(status=200)
 
 
-# class InvoiceAPIView(APIView):
-#     def post(self, request):
-#         serializer = InvoiceSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save(user=request.user, status=Invoice.SENT)
-#         return Response(status=status.HTTP_201_CREATED)
+class twitter_api(generics.ListAPIView):
+    queryset = Twitter.objects.all()
+    serializer_class = TwitterSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_fields = ["id", "campaign_id", "date"]
+
+    def post(self, request):
+        obj = TwitterSerializer(data=request.data)
+        obj.is_valid()
+        obj.save()
+        return Response(status=200)

@@ -11,4 +11,5 @@ urlpatterns = [
     path("sm2/", views.sm2),
     path("facebook/", views.facebook),
     path("facebook/api/", csrf_exempt(views.facebook_api.as_view())),
+    path("twitter/api/", csrf_exempt(views.twitter_api.as_view())),
 ]
