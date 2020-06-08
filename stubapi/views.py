@@ -1,6 +1,7 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
+from django.http import JsonResponse
 import pandas as pd
 
 from django.shortcuts import render, HttpResponse
@@ -32,7 +33,28 @@ def sm2(request):
 
 
 def facebook(request):
-    return render(request, "facebook.html")
+    if request.method == "GET":
+        posts = Facebok.objects.all().order_by("-date")
+        return render(request, "facebook.html", {"posts": posts})
+
+
+def twitter(request):
+    if request.method == "GET":
+        posts = Twitter.objects.all().order_by("-date")
+        return render(request, "twitter.html", {"posts": posts})
+    elif request.method == "POST":
+        print(request.POST)
+        if request.POST.get("retweet"):
+            obj = Twitter.objects.get(id=request.POST.get("tweet_id"))
+            obj.retweets_count += 1
+            obj.save()
+            print("like")
+        elif request.POST.get("like"):
+            obj = Twitter.objects.get(id=request.POST.get("tweet_id"))
+            obj.likes_count += 1
+            obj.save()
+            print("retweet")
+        return JsonResponse({"msg": "success"})
 
 
 class facebook_api(generics.ListAPIView):
