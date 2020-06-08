@@ -39,10 +39,12 @@ class CustomTable(models.Model):
             "-created_at"
         )[0]
         df1 = pd.DataFrame(df1.data)
+        df1["Campaign Name"] = Campaign.objects.get(id=campaign1).name
         df2 = Data.objects.filter(campaign__id=campaign2).order_by(
             "-created_at"
         )[0]
         df2 = pd.DataFrame(df2.data)
+        df2["Campaign Name"] = Campaign.objects.get(id=campaign2).name
 
         # output table
         finalDf = pd.concat(

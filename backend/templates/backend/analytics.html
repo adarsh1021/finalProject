@@ -156,7 +156,7 @@
     function loadTable(customTableId) {
         $.post(
             '/api/analytics',
-            { data: JSON.stringify({ customTableId: 4, functions: {} }) },
+            { data: JSON.stringify({ customTableId: $('#customTableId').val(), functions: {} }) },
             function(response) {
                 var table = response.table;
                 var data = $.parseJSON(table.data);
