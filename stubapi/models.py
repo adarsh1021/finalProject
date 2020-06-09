@@ -2,6 +2,11 @@ from django.db import models
 from datetime import datetime
 
 # Create your models here.
+import random
+
+
+def randomVal(l=0, k=50):
+    return random.randrange(l, k)
 
 
 class Facebook(models.Model):
@@ -9,13 +14,17 @@ class Facebook(models.Model):
     title = models.CharField(max_length=50, default=None)
     description = models.TextField()
     image = models.CharField(max_length=500, default=None)
-    campaign_id = models.IntegerField(default=1123)
+    campaign_id = models.IntegerField(default=124612)
     date = models.DateTimeField(default=datetime.now, blank=True)
-    likes_count = models.IntegerField(default=0)
-    shares_count = models.IntegerField(default=0)
-    views = models.IntegerField(default=0)
-    clicks = models.IntegerField(default=0)
-    cost = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
+    likes_count = models.IntegerField(default=lambda: randomVal(15, 50))
+    shares_count = models.IntegerField(default=lambda: randomVal(2, 20))
+    views = models.IntegerField(default=lambda: randomVal(20, 100))
+    clicks = models.IntegerField(default=lambda: randomVal(20, 50))
+    cost = models.DecimalField(
+        default=lambda: randomVal(10, 100) * 0.1,
+        max_digits=10,
+        decimal_places=2,
+    )
 
 
 class Twitter(models.Model):
@@ -25,8 +34,12 @@ class Twitter(models.Model):
     image = models.CharField(max_length=500, default=None)
     campaign_id = models.IntegerField(default=1123)
     date = models.DateTimeField(default=datetime.now, blank=True)
-    likes_count = models.IntegerField(default=0)
-    retweets_count = models.IntegerField(default=0)
-    impressions = models.IntegerField(default=0)
-    clicks = models.IntegerField(default=0)
-    cost = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
+    heart_count = models.IntegerField(default=lambda: randomVal(15, 50))
+    retweets_count = models.IntegerField(default=lambda: randomVal(2, 20))
+    impressions = models.IntegerField(default=lambda: randomVal(20, 100))
+    clicks = models.IntegerField(default=lambda: randomVal(20, 50))
+    cost = models.DecimalField(
+        default=lambda: randomVal(10, 100) * 0.1,
+        max_digits=10,
+        decimal_places=2,
+    )
