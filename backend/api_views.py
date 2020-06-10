@@ -13,6 +13,8 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 
 
+from .views import index
+
 """
 Always follow the below response format
 {
@@ -144,7 +146,7 @@ def create_campaign(request):
 
         campaign.save()
 
-    return JsonResponse({"success": True})
+    return index(request)
 
 
 @csrf_exempt

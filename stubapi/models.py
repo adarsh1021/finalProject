@@ -9,6 +9,7 @@ def randomVal(l=0, k=50):
     return random.randrange(l, k)
 
 
+# id,title,description,image,campaign_id,date,likes_count,shares_count,views,clicks,cost
 class Facebook(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, default=None)
@@ -27,6 +28,7 @@ class Facebook(models.Model):
     )
 
 
+# id,title,description,image,campaign_id,date,heart_count,retweets_count,impressions,clicks,cost
 class Twitter(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, default=None)

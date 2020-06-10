@@ -14,7 +14,7 @@
                     <br />
                     {% for table in customTables %}
                     <a href="{% url 'backend:analytics' table.id %}">
-                        <div class="col col-2">
+                        <div class="col col-4">
                             <div class="card bg-primary text-white shadow">
                                 <div class="card-body">
                                     {{ table.name }}
@@ -25,18 +25,16 @@
                             </div>
                         </div>
                     </a>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
             {% else %}
             <div class="row">
                 <div class="col">
                     <form class="form-inline">
                         <label class="my-1 mr-2">Function</label>
-                        <select
-                            class="custom-select my-1 mr-sm-2"
-                            id="selectFunction"
-                        >
+                        <select class="custom-select my-1 mr-sm-2"
+                            id="selectFunction">
                             <option value="sum">Sum</option>
                             <option value="mean">Mean</option>
                             <option value="median">Median</option>
@@ -48,24 +46,18 @@
                         </select>
 
                         <label class="my-1 mr-2">Column</label>
-                        <select
-                            id="selectColumn"
-                            class="custom-select my-1 mr-sm-2"
-                        >
+                        <select id="selectColumn"
+                            class="custom-select my-1 mr-sm-2">
                         </select>
 
-                        <button
-                            id="applyFunction"
-                            type="button"
-                            class="btn btn-primary my-1"
-                        >
+                        <button id="applyFunction" type="button"
+                            class="btn btn-primary my-1">
                             Apply
                         </button>
                         <div class="col">
-                            <div
-                                id="functionResult"
-                                style="color: black; font-weight: bold; font-size: 1.2rem;"
-                            ></div>
+                            <div id="functionResult"
+                                style="color: black; font-weight: bold; font-size: 1.2rem;">
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -75,55 +67,36 @@
                 <label class="my-1 mr-2">column1</label>
                 <select
                     class="custom-select my-1 mr-sm-2 forecasting-select-column"
-                    id="selectFunction"
-                >
+                    id="selectFunction">
                 </select>
 
                 <label class="my-1 mr-2">column2</label>
-                <select
-                    id="selectColumn"
-                    class="custom-select my-1 mr-sm-2 forecasting-select-column"
-                >
+                <select id="selectColumn"
+                    class="custom-select my-1 mr-sm-2 forecasting-select-column">
                 </select>
 
-                <input
-                    type="text"
+                <input type="text"
                     class="form-control form-control-user my-1 mr-sm-2"
-                    name="column1-value"
-                    placeholder="Enter value of column1"
-                />
+                    name="column1-value" placeholder="Enter value of column1" />
 
-                <button
-                    id="forecastFunction"
-                    type="button"
-                    class="btn btn-primary my-1"
-                >
+                <button id="forecastFunction" type="button"
+                    class="btn btn-primary my-1">
                     Forecast
                 </button>
                 <div class="col">
-                    <div
-                        id="forecastingResult"
-                        class="mt-2"
-                        style="color: black; font-weight: bold; font-size: 1.2rem;"
-                    ></div>
+                    <div id="forecastingResult" class="mt-2"
+                        style="color: black; font-weight: bold; font-size: 1.2rem;">
+                    </div>
                 </div>
             </form>
             <div class="row">
-                <input
-                    type="hidden"
-                    id="customTableId"
-                    value="{{ customTableId }}"
-                />
+                <input type="hidden" id="customTableId"
+                    value="{{ customTableId }}" />
                 <div
-                    style="display: block; position: absolute; height: 65%; width: 85%; overflow: scroll;"
-                >
-                    <table
-                        class="table table-bordered dataTable"
-                        id="dataTable"
-                        cellspacing="0"
-                        role="grid"
-                        style="background: white;"
-                    ></table>
+                    style="display: block; position: absolute; height: 65%; width: 85%; overflow: scroll;">
+                    <table class="table table-bordered dataTable" id="dataTable"
+                        cellspacing="0" role="grid" style="background: white;">
+                    </table>
                 </div>
                 {% endif %}
             </div>
@@ -131,19 +104,19 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         if ($('#customTableId').val()) {
             loadTable(customTableId);
         }
 
-        $('#applyFunction').click(function() {
+        $('#applyFunction').click(function () {
             applyFunction(
                 $('#customTableId').val(),
                 $('#selectFunction').val(),
                 $('#selectColumn').val()
             );
         });
-        $('#forecastFunction').click(function() {
+        $('#forecastFunction').click(function () {
             forecastFunction(
                 $('#customTableId').val(),
                 $('.forecasting-select-column:eq(0)').val(),
@@ -157,7 +130,7 @@
         $.post(
             '/api/analytics',
             { data: JSON.stringify({ customTableId: $('#customTableId').val(), functions: {} }) },
-            function(response) {
+            function (response) {
                 var table = response.table;
                 var data = $.parseJSON(table.data);
                 createTable(data);
@@ -171,7 +144,7 @@
             functions: {}
         };
         data.functions[fn] = column;
-        $.post('/api/analytics', { data: JSON.stringify(data) }, function(
+        $.post('/api/analytics', { data: JSON.stringify(data) }, function (
             response
         ) {
             if (response.table) {
@@ -190,7 +163,7 @@
         );
         // populate columns
         var columns = Object.keys(data);
-        columns.forEach(function(column) {
+        columns.forEach(function (column) {
             $('#header').append(`<th>${column}</th>`);
             $('#selectColumn').append(
                 `<option value="${column}">${column}</option>`
@@ -205,9 +178,9 @@
 
         // populate rows
         var rowIds = Object.keys(data[columns[0]]);
-        rowIds.forEach(function(row) {
+        rowIds.forEach(function (row) {
             var rowData = '<tr>';
-            columns.forEach(function(col) {
+            columns.forEach(function (col) {
                 rowData += `<td>${data[col][row]}</td>`;
             });
             rowData += '</tr>';
@@ -221,7 +194,7 @@
             column2: column2,
             column1_x: column1_x
         };
-        $.post('/api/forecast/', { data: JSON.stringify(data) }, function(
+        $.post('/api/forecast/', { data: JSON.stringify(data) }, function (
             response
         ) {
             console.log(response);
