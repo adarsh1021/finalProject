@@ -143,6 +143,12 @@ def create_campaign(request):
             campaign.source = request.POST.get("api")
         elif campaign.sourceType == "csv":
             campaign.sourceType = "csvFile"
+            csv_file = request.FILES['file']
+            csv_pd = pd.read_csv(csv_file)
+            csv_pd = csv_pd[campaign.fields.keys()]
+            campaign.schedule = "Never"
+            campaign.save()
+            Data(campaign=campaign, data=json.loads(csv_pd.to_json(orient='records'))).save()
 
         campaign.save()
 
