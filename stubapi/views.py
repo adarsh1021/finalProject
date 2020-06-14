@@ -96,3 +96,34 @@ class twitter_api(generics.ListAPIView):
         obj.is_valid()
         obj.save()
         return Response(status=200)
+
+
+def test1(request):
+    return HttpResponse(
+        """
+        
+        {"id": {"0": "1", "1": "2", "2": "k", "3": "4"},
+        "title": {"0": "abc", "1": "def", "2": "ghi", "3": "jkl"},
+        "likes": {"0": 3, "1": 5, "2": 3, "3": 5,
+        "clicks": {"0": "10", "1": "er", "2": "6", "3": "12"}}
+            
+    """
+    )
+
+
+def test2(request):
+    return HttpResponse(
+        """{"id": {"0": "1", "1": "2", "2": "k", "3": "4"},
+        "title": {"0": "abc", "1": "def", "2": "ghi", "3": "jkl"},
+        "likes": {"0": 3, "1": 5, "2": 3, "3": 5},
+        "clicks": {"0": "10", "1": "er", "2": "6", "3": "12"}}"""
+    )
+
+
+def test3(request):
+    return HttpResponse(
+        """{"id": {"0": "10", "1": "11", "2": "12"},
+        "title": {"0": "jkl", "1": "mno", "2": "pqr"},
+        "likes": {"0": 1, "1": 2, "2": 4},
+        "clicks": {"0": "10", "1": "12", "2": "12"}}"""
+    )

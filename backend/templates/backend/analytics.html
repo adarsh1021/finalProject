@@ -14,7 +14,7 @@
                     <br />
                     {% for table in customTables %}
                     <a href="{% url 'backend:analytics' table.id %}">
-                        <div class="col col-4">
+                        <div class="col col-4 mt-2">
                             <div class="card bg-primary text-white shadow">
                                 <div class="card-body">
                                     {{ table.name }}
@@ -152,7 +152,7 @@
                 $('#dataTable').empty();
                 createTable($.parseJSON(response.table.data));
             } else {
-                $('#functionResult').text(response.result);
+                $('#functionResult').html(response.result);
             }
         });
     }
@@ -199,7 +199,7 @@
         ) {
             console.log(response);
             if (response !== undefined) {
-                $('#forecastingResult').text(
+                $('#forecastingResult').html(
                     `${column2}: ${response.predictedVal}`
                 );
             }

@@ -22,7 +22,7 @@ def fetch_data_daily():
             print(data)
             Data(campaign=campaign, data=data).save()
         except Exception as e:
-            print("error")
+            print("JSON formatting error")
             print(e)
 
 
@@ -40,7 +40,7 @@ def fetch_data_weekly():
             print(data)
             Data(campaign=campaign, data=data).save()
         except Exception as e:
-            print("error")
+            print("JSON formatting error")
             print(e)
 
 
@@ -60,4 +60,3 @@ def fetch_data_montly():
         except Exception as e:
             print("error")
             print(e)
-

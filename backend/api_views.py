@@ -156,6 +156,11 @@ def create_custom_table(request):
     name = data.pop("name")
     user = request.user
 
+    cam1, cam2 = data
+    col1, col2 = set(data[cam1]), set(data[cam2])
+    if len(col1) != len(data[cam1]) or len(col2) != len(data[cam2]):
+        raise Exception("Duplicate mapping in custom table definiton.")
+
     CustomTable.objects.create(user=user, name=name, structure=data)
 
     return JsonResponse({"success": True})
@@ -186,10 +191,21 @@ def analytics(request):
         fn = list(functions.keys())[0]
         column = functions[fn]
 
+        if fn != "pivot":
+            try:
+                df_col = tableDf[column].astype("float")
+            except Exception as e:
+                print("Invalid input in column.")
+                print(e)
+                return JsonResponse(
+                    {
+                        "result": "<span style='color: red;'>INVALID INPUT</span>",
+                        "table": False,
+                    }
+                )
+
         if fn in ("sum", "mean", "median", "min", "max"):
-            result = (
-                f"{fn.upper()}({column}) = {getattr(tableDf[column], fn)()}"
-            )
+            result = f"{fn.upper()}({column}) = {getattr(df_col, fn)()}"
             return JsonResponse({"result": result, "table": False})
         elif fn in ("groupby"):
             resultTable = tableDf.groupby(column).sum()
@@ -247,12 +263,26 @@ def forecast(request):
     customTableDf = customTable.get_df()
 
     lr = LinearRegression()
-    x = np.reshape(customTableDf[data.get("column1")].tolist(), (-1, 1))
-    y = np.reshape(customTableDf[data.get("column2")].tolist(), (-1, 1))
-    lr.fit(x, y)
-    predictedVal = lr.predict(np.reshape([int(data.get("column1_x"))], (-1, 1)))
 
-    return JsonResponse({"predictedVal": predictedVal[0][0]})
+    try:
+        x = np.reshape(
+            customTableDf[data.get("column1")].astype("float").tolist(), (-1, 1)
+        )
+        y = np.reshape(
+            customTableDf[data.get("column2")].astype("float").tolist(), (-1, 1)
+        )
+        lr.fit(x, y)
+        predictedVal = lr.predict(
+            np.reshape([int(data.get("column1_x"))], (-1, 1))
+        )
+    except Exception as e:
+        print("Error in input type - could not perform forecasting.")
+        return JsonResponse(
+            {
+                "predictedVal": "<span style='color: red;'>ERROR IN FORECASTING</span>"
+            }
+        )
+    return JsonResponse({"predictedVal": round(predictedVal[0][0], 2)})
 
 
 @csrf_exempt

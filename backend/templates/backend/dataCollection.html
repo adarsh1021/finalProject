@@ -12,28 +12,18 @@
         <div class="row">
             <div class="col-md-6 offset-md-2">
                 <h2>Create Campaign</h2>
-                <form
-                    id="fromCreateCampaign"
-                    class="user container"
-                    action="/api/create_campaign"
-                    method="POST"
-                >
+                <form id="fromCreateCampaign" class="user container"
+                    action="/api/create_campaign" method="POST">
                     <div class="form-group">
-                        <input
-                            type="text"
-                            name="campaignName"
+                        <input type="text" name="campaignName"
                             class="form-control form-control-user"
-                            placeholder="Campaign Name"
-                        />
+                            placeholder="Campaign Name" />
                     </div>
                     <div class="form-group">
                         <label>Data Source</label>
-                        <select
-                            id="sourceType"
-                            class="form-control"
-                            name="sourceType"
-                        >
-                            <option value="sm">Social Media</option>
+                        <select id="sourceType" class="form-control"
+                            name="sourceType">
+                            <!-- <option value="sm">Social Media</option> -->
                             <option value="api">API Endpoint</option>
                             <option value="csv">CSV File</option>
                         </select>
@@ -41,80 +31,51 @@
                     <div id="optionalElements">
                         <div id="selectSocialMedia" class="form-group">
                             <label>Select Social Media</label>
-                            <select
-                                id="socialMedia"
-                                class="form-control"
-                                name="socialMedia"
-                            >
+                            <select id="socialMedia" class="form-control"
+                                name="socialMedia">
                                 <option value="facebook">Facebook</option>
                                 <option value="twitter">Twitter</option>
                                 <option value="google">Google</option>
                             </select>
                         </div>
                         <div id="selectAPI" class="form-group">
-                            <input
-                                type="text"
+                            <input type="text"
                                 class="form-control form-control-user"
-                                name="api"
-                                placeholder="Enter API Endpoint"
-                            />
+                                name="api" placeholder="Enter API Endpoint" />
                         </div>
                         <div id="selectCSV" class="form-group">
-                            <input
-                                type="button"
-                                class="btn btn-primary"
-                                value="Select File"
-                            />
+                            <input type="button" class="btn btn-primary"
+                                value="Select File" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <input
-                            type="text"
-                            class="form-control form-control-user"
-                            name="fields"
-                            placeholder="Fields"
-                        />
+                        <input type="text"
+                            class="form-control form-control-user" name="fields"
+                            placeholder="Fields" />
                     </div>
                     <div class="form-group">
                         <label>Schedule</label>
                         <div class="row">
                             <div class="checkbox col-md-2">
-                                <label
-                                    ><input
-                                        type="radio"
-                                        name="schedule"
-                                        value="DAILY"
-                                    />
-                                    Daily</label
-                                >
+                                <label><input type="radio" name="schedule"
+                                        value="DAILY" />
+                                    Daily</label>
                             </div>
                             <div class="checkbox col-md-2">
-                                <label
-                                    ><input
-                                        type="radio"
-                                        name="schedule"
-                                        value="WEEKLY"
-                                    />
-                                    Weekly</label
-                                >
+                                <label><input type="radio" name="schedule"
+                                        value="WEEKLY" />
+                                    Weekly</label>
                             </div>
                             <div class="checkbox col-md-2">
-                                <label
-                                    ><input
-                                        type="radio"
-                                        name="schedule"
-                                        value="MOTHLY"
-                                    />
-                                    Monthly</label
-                                >
+                                <label><input type="radio" name="schedule"
+                                        value="MOTHLY" />
+                                    Monthly</label>
                             </div>
                         </div>
                     </div>
-                    <input
-                        type="submit"
+                    <input type="submit"
                         class="btn btn-primary btn-user btn-block"
-                        value="Add Social Media"
-                    />
+                        value="Add Social Media" />
                 </form>
             </div>
         </div>

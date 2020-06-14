@@ -1,190 +1,178 @@
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
 
-        <title>Social Media Analytics</title>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-        <!-- Custom fonts for this template-->
-        <link
-            href="/static/vendor/fontawesome-free/css/all.css"
-            rel="stylesheet"
-            type="text/css"
-        />
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Social Media Analytics</title>
 
-        <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet"
-        />
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.css" rel="stylesheet"
+        type="text/css" />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-        <!-- Custom styles for this template-->
-        <link href="/static/css/sb-admin-2.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet" />
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="/static/vendor/jquery/jquery.min.js"></script>
-        <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet" />
 
-        <!-- Core plugin JavaScript-->
-        <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- jspdf for exporting html as pdf-->
-        <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-        <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
-    </head>
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <body>
-        <!-- Page Wrapper -->
-        <div id="wrapper">
-            <!-- Content Wrapper -->
-            {% block content %} {% endblock%}
-            <!-- End of Content Wrapper -->
+    <!-- jspdf for exporting html as pdf-->
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script type="text/javascript"
+        src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+</head>
 
-            <!-- Scroll to Top Button-->
-            <a class="scroll-to-top rounded" href="#page-top">
-                <i class="fas fa-angle-up"></i>
-            </a>
+<body>
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Content Wrapper -->
+        {% block content %} {% endblock%}
+        <!-- End of Content Wrapper -->
 
-            <!-- Logout Modal-->
-            <div
-                class="modal fade"
-                id="logoutModal"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-            >
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">
-                                Ready to Leave?
-                            </h5>
-                            <button
-                                class="close"
-                                type="button"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                            >
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Select "Logout" below if you are ready to end your
-                            current session.
-                        </div>
-                        <div class="modal-footer">
-                            <button
-                                class="btn btn-secondary"
-                                type="button"
-                                data-dismiss="modal"
-                            >
-                                Cancel
-                            </button>
-                            <a
-                                class="btn btn-primary"
-                                href="{% url 'backend:sign_out' %}"
-                                >Logout</a
-                            >
-                        </div>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Ready to Leave?
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Select "Logout" below if you are ready to end your
+                        current session.
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button"
+                            data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <a class="btn btn-primary"
+                            href="{% url 'backend:sign_out' %}">Logout</a>
                     </div>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 
-    <!-- Custom scripts for all pages-->
-    <script src="/static/js/sb-admin-2.min.js"></script>
+<!-- Custom scripts for all pages-->
+<script src="/static/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="/static/vendor/chart.js/Chart.min.js"></script>
+<!-- Page level plugins -->
+<script src="/static/vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="/static/js/demo/chart-area-demo.js"></script>
-    <script src="/static/js/demo/chart-pie-demo.js"></script>
+<!-- Page level custom scripts -->
+<script src="/static/js/demo/chart-area-demo.js"></script>
+<script src="/static/js/demo/chart-pie-demo.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            // Code for data collection page
-            selectMap = {
-                sm: '#selectSocialMedia',
-                api: '#selectAPI',
-                csv: '#selectCSV'
-            };
-            // Default
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Code for data collection page
+        selectMap = {
+            sm: '#selectSocialMedia',
+            api: '#selectAPI',
+            csv: '#selectCSV'
+        };
+        // Default
+        $('#optionalElements div').hide();
+        $(selectMap[$('#sourceType').val()]).show();
+
+        $('#sourceType').on('change', function () {
             $('#optionalElements div').hide();
-            $(selectMap[$('#sourceType').val()]).show();
+            $(selectMap[$(this).val()]).show();
+        });
 
-            $('#sourceType').on('change', function() {
-                $('#optionalElements div').hide();
-                $(selectMap[$(this).val()]).show();
-            });
-
-            // Code for mapping page
+        // Code for mapping page
+        $('#campaign1Fields > div').hide();
+        $(`#campaign1Fields #${$('#campaign1').val()}`).show();
+        $('#campaign1').on('change', function () {
             $('#campaign1Fields > div').hide();
             $(`#campaign1Fields #${$('#campaign1').val()}`).show();
-            $('#campaign1').on('change', function() {
-                $('#campaign1Fields > div').hide();
-                $(`#campaign1Fields #${$('#campaign1').val()}`).show();
-            });
+        });
+        $('#campaign2Fields > div').hide();
+        $(`#campaign2Fields #${$('#campaign2').val()}`).show();
+        $('#campaign2').on('change', function () {
             $('#campaign2Fields > div').hide();
             $(`#campaign2Fields #${$('#campaign2').val()}`).show();
-            $('#campaign2').on('change', function() {
-                $('#campaign2Fields > div').hide();
-                $(`#campaign2Fields #${$('#campaign2').val()}`).show();
-            });
-
-            $('#create-mapping').click(function() {
-                var data = {};
-                data[$('#campaign1').val()] = [];
-                data[$('#campaign2').val()] = [];
-                for (
-                    var i = 0;
-                    i <
-                    $(`#campaign1Fields #${$('#campaign1').val()} div div`)
-                        .length;
-                    i++
-                ) {
-                    let checked = $(
-                        `#campaign1Fields #${$(
-                            '#campaign1'
-                        ).val()} div div:eq(${i}) input`
-                    )[0].checked;
-                    if (checked) {
-                        let key = $.trim(
-                            $(
-                                `#campaign1Fields #${$(
-                                    '#campaign1'
-                                ).val()} div div:eq(${i})`
-                            ).text()
-                        );
-                        let val = $(
-                            `#campaign2Fields #${$(
-                                '#campaign2'
-                            ).val()} select:eq(${i})`
-                        ).val();
-                        data[$('#campaign1').val()].push(key);
-                        data[$('#campaign2').val()].push(val);
-                        console.log(key);
-                    }
-                }
-                data['name'] = $('#customTableName').val();
-                console.log(data);
-                $.post(
-                    '/api/create_custom_table',
-                    { data: JSON.stringify(data) },
-                    function(response) {
-                        console.log(response);
-                    }
-                );
-            });
         });
-    </script>
+
+        $('#create-mapping').click(function () {
+            var data = {};
+            data[$('#campaign1').val()] = [];
+            data[$('#campaign2').val()] = [];
+            for (
+                var i = 0;
+                i <
+                $(`#campaign1Fields #${$('#campaign1').val()} div div`)
+                    .length;
+                i++
+            ) {
+                let checked = $(
+                    `#campaign1Fields #${$(
+                        '#campaign1'
+                    ).val()} div div:eq(${i}) input`
+                )[0].checked;
+                if (checked) {
+                    let key = $.trim(
+                        $(
+                            `#campaign1Fields #${$(
+                                '#campaign1'
+                            ).val()} div div:eq(${i})`
+                        ).text()
+                    );
+                    let val = $(
+                        `#campaign2Fields #${$(
+                            '#campaign2'
+                        ).val()} select:eq(${i})`
+                    ).val();
+                    data[$('#campaign1').val()].push(key);
+                    data[$('#campaign2').val()].push(val);
+                    console.log(key);
+                }
+            }
+            data['name'] = $('#customTableName').val();
+            console.log(data);
+
+            if (data['name'] === "") {
+                alert('Enter Custom Table Name');
+                return;
+            }
+            $.post(
+                '/api/create_custom_table',
+                { data: JSON.stringify(data) },
+                function (response) {
+                    console.log(response);
+                    location.href = "/index";
+                }
+            );
+        });
+    });
+</script>
+
 </html>
