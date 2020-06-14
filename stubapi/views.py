@@ -82,6 +82,11 @@ class facebook_api(generics.ListAPIView):
         obj = FacebookSerializer(data=request.data)
         obj.is_valid()
         obj.save()
+        fb_objs = Facebook.objects.all().order_by('-date')
+        for i, obj in enumerate(fb_objs, start=100):
+            obj.id = i
+            obj.save()
+        Facebook.objects.filter(id=None).delete()
         return Response(status=200)
 
 
