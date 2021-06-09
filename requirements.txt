@@ -10,7 +10,7 @@ celery==4.4.0
 Click==7.0
 cycler==0.10.0
 dataclasses==0.6
-Django==2.2.10
+Django==2.2.22
 django-celery-beat==1.6.0
 django-filter==2.3.0
 django-timezone-field==3.1
