@@ -6,7 +6,7 @@ attrs==19.3.0
 billiard==3.6.2.0
 black==19.10b0
 bson==0.5.8
-celery==4.4.0
+celery==5.2.2
 Click==7.0
 cycler==0.10.0
 dataclasses==0.6
